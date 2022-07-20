@@ -1,5 +1,1055 @@
 [
     {
+        "id": "59141dacc2fa9a80",
+        "type": "tab",
+        "label": "CS105b Final",
+        "disabled": false,
+        "info": ""
+    },
+    {
+        "id": "d09cb4e1452eb447",
+        "type": "ui_button",
+        "z": "59141dacc2fa9a80",
+        "name": "IconRefresh",
+        "group": "70fb931.dfc146c",
+        "order": 2,
+        "width": 2,
+        "height": 2,
+        "passthru": false,
+        "label": "",
+        "tooltip": "Refresh",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "fa-refresh 4x",
+        "payload": "true",
+        "payloadType": "bool",
+        "topic": "",
+        "topicType": "str",
+        "x": 1310,
+        "y": 280,
+        "wires": [
+            [
+                "fe3802d3684f61a5"
+            ]
+        ]
+    },
+    {
+        "id": "f0d19a3324325028",
+        "type": "ui_text",
+        "z": "59141dacc2fa9a80",
+        "group": "70fb931.dfc146c",
+        "order": 6,
+        "width": 5,
+        "height": "1",
+        "name": "Description",
+        "label": "",
+        "format": "{{msg.payload.current.weather[0].description}}",
+        "layout": "row-left",
+        "className": "",
+        "x": 1310,
+        "y": 80,
+        "wires": []
+    },
+    {
+        "id": "bff897b453d781d1",
+        "type": "ui_text",
+        "z": "59141dacc2fa9a80",
+        "group": "70fb931.dfc146c",
+        "order": 4,
+        "width": 3,
+        "height": "1",
+        "name": "Wind",
+        "label": "",
+        "format": "{{msg.payload.current.wind_speed}}&nbsp;&nbsp;<i class=\"wi wi-darksky-wind\"></i>&nbsp;&nbsp;{{msg.payload.current.wind_cardinal}}",
+        "layout": "col-center",
+        "className": "",
+        "x": 1290,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "ee23aa03d3ee53a2",
+        "type": "ui_text",
+        "z": "59141dacc2fa9a80",
+        "group": "70fb931.dfc146c",
+        "order": 5,
+        "width": 3,
+        "height": 1,
+        "name": "SunriseTime",
+        "label": "",
+        "format": "<i class=\"wi wi-owm-01d\"></i>&nbsp;<i class=\"fa fa-arrow-up\"></i>&nbsp;&nbsp;{{msg.payload.current.sunrise}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 1310,
+        "y": 200,
+        "wires": []
+    },
+    {
+        "id": "d5299eb2a7e42560",
+        "type": "ui_text",
+        "z": "59141dacc2fa9a80",
+        "group": "70fb931.dfc146c",
+        "order": 7,
+        "width": 3,
+        "height": 1,
+        "name": "SunsetTime",
+        "label": "",
+        "format": "<i class=\"wi wi-wu-sunny\"></i>&nbsp;<i class=\"fa fa-arrow-down\"></i>&nbsp;&nbsp;{{msg.payload.current.sunset}}",
+        "layout": "row-center",
+        "className": "",
+        "x": 1310,
+        "y": 240,
+        "wires": []
+    },
+    {
+        "id": "65b29f0304f84077",
+        "type": "ui_template",
+        "z": "59141dacc2fa9a80",
+        "group": "70fb931.dfc146c",
+        "name": "Forecast Info",
+        "order": 8,
+        "width": "10",
+        "height": "2",
+        "format": "<div style=\"height: 100%; justify-content: center; align-items: center;\">\n <div layout=\"rowicons\" layout-align=\"space-around start\" ng-repeat=\"data in msg.payload.rowicons\" style=\"font-size:150%;padding-top: 5px;padding-bottom: 5px\">\n  <span flex style=\"color: black;text-align: center\"><i class=\"wi wi-owm-{{data.cell01}}\"></i></span>\n  <span flex style=\"color: black;text-align: center\"><i class=\"wi wi-owm-{{data.cell02}}\"></i></span>\n  <span flex style=\"color: black;text-align: center\"><i class=\"wi wi-owm-{{data.cell03}}\"></i></span>\n  <span flex style=\"color: black;text-align: center\"><i class=\"wi wi-owm-{{data.cell04}}\"></i></span>\n  <span flex style=\"color: black;text-align: center\"><i class=\"wi wi-owm-{{data.cell05}}\"></i></span>\n  <span flex style=\"color: black;text-align: center\"><i class=\"wi wi-owm-{{data.cell06}}\"></i></span>\n  <span flex style=\"color: #097479;text-align: center\"><i class=\"wi wi-owm-{{data.cell07}}\"></i></span>\n  <span flex style=\"color: #097479;text-align: center\"><i class=\"wi wi-owm-{{data.cell08}}\"></i></span>\n  <span flex style=\"color: #097479;text-align: center\"><i class=\"wi wi-owm-{{data.cell09}}\"></i></span>\n  <span flex style=\"color: #097479;text-align: center\"><i class=\"wi wi-owm-{{data.cell10}}\"></i></span>\n </div>\n <div layout=\"rowtext\" layout-align=\"space-around start\" ng-repeat=\"data in msg.payload.rowtext\" style=\"line-height: 150%\">\n  <span flex style=\"color: black;text-align: center;\">{{data.cell01}}</span>\n  <span flex style=\"color: black;text-align: center\">{{data.cell02}}</span>\n  <span flex style=\"color: black;text-align: center\">{{data.cell03}}</span>\n  <span flex style=\"color: black;text-align: center\">{{data.cell04}}</span>\n  <span flex style=\"color: black;text-align: center\">{{data.cell05}}</span>\n  <span flex style=\"color: black;text-align: center\">{{data.cell06}}</span>\n  <span flex style=\"color: #097479;text-align: center\">{{data.cell07}}</span>\n  <span flex style=\"color: #097479;text-align: center\">{{data.cell08}}</span>\n  <span flex style=\"color: #097479;text-align: center\">{{data.cell09}}</span>\n  <span flex style=\"color: #097479;text-align: center\">{{data.cell10}}</span>\n </div>\n</div>",
+        "storeOutMessages": true,
+        "fwdInMessages": true,
+        "resendOnRefresh": false,
+        "templateScope": "local",
+        "className": "",
+        "x": 1310,
+        "y": 340,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "a97074f074db8bd6",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Format forecast data",
+        "func": "var fcdata = {};\nvar units=flow.get('units');\nif (units===undefined)\n{\n  units=\"imperial\";\n}\n\nfunction formatTemp(high, low){\n    if (units == \"imperial\") {\n        if (low){\n          temp = parseFloat(high).toFixed() + '/' + parseFloat(low).toFixed()\n        }\n        else {\n          temp = parseFloat(high).toFixed() + '°F'\n        }\n    }\n    else { // metric\n        if (low){\n          temp = parseFloat(high).toFixed() + '/' + parseFloat(low).toFixed()\n        }\n        else {\n          temp = parseFloat(high).toFixed() + '°C'\n        }\n    }\n    return temp;\n}\n\nfunction dayName(unixTime){\n  var dateObject = new Date(unixTime * 1000);\n  return dateObject.toLocaleString(flow.get('lang'), { timezone: msg.payload.timezone, weekday: 'short'});\n  // If the line above is not producing the correct short weekday names for the language set by 'lang',\n  //   you can try upgrading to NodeJS version 13 or higher (when full international support was added for the toLocaleString function),\n  //   or you can use the code below which is an example for French short weekday names.\n/*  \n  switch (dateObject.toLocaleString('en', { timezone: msg.payload.timezone, weekday: 'short'})) {\n    case 'Mon':\n      return 'Lun';\n    case 'Tue':\n      return 'Mar';\n    case 'Wed':\n      return 'Mer';\n    case 'Thu':\n      return 'Jeu';\n    case 'Fri':\n      return 'Ven';\n    case 'Sat':\n      return 'Sam';\n    case 'Sun':\n      return 'Dim';\n  }\n*/\n}\n\nfunction timeConvert(UNIX_timestamp){\n  var dateObject = new Date(UNIX_timestamp * 1000);\n  if (flow.get('hour12')) {  // 12 hour time format\n    return dateObject.toLocaleString('en', { timezone: msg.payload.timezone, hour12: true, hour: 'numeric'}).toLowerCase();\n  } else {  // 24 hour time format\n    return dateObject.toLocaleString('en', { timezone: msg.payload.timezone, hour12: false, hour: 'numeric'}) + ':00';\n  }      \n}\n\n// prepare forecast data for CSS based ui widget\nfcdata.payload = {\n  rowtext: {\n  \tdata01: {\n      cell01: timeConvert(msg.payload.hourly[1].dt),\n      cell02: timeConvert(msg.payload.hourly[2].dt),\n      cell03: timeConvert(msg.payload.hourly[3].dt),\n      cell04: timeConvert(msg.payload.hourly[4].dt),\n      cell05: timeConvert(msg.payload.hourly[5].dt),\n      cell06: timeConvert(msg.payload.hourly[6].dt),\n      cell07: dayName(msg.payload.daily[1].dt),\n      cell08: dayName(msg.payload.daily[2].dt),\n      cell09: dayName(msg.payload.daily[3].dt),\n      cell10: dayName(msg.payload.daily[4].dt),\n  \t},\n  \tdata02: {\n       cell01: formatTemp(msg.payload.hourly[1].temp),\n       cell02: formatTemp(msg.payload.hourly[2].temp),\n       cell03: formatTemp(msg.payload.hourly[3].temp),\n       cell04: formatTemp(msg.payload.hourly[4].temp),\n       cell05: formatTemp(msg.payload.hourly[5].temp),\n       cell06: formatTemp(msg.payload.hourly[6].temp),\n       cell07: formatTemp(msg.payload.daily[1].temp.max, msg.payload.daily[0].temp.min),\n       cell08: formatTemp(msg.payload.daily[2].temp.max, msg.payload.daily[1].temp.min),\n       cell09: formatTemp(msg.payload.daily[3].temp.max, msg.payload.daily[2].temp.min),\n       cell10: formatTemp(msg.payload.daily[4].temp.max, msg.payload.daily[3].temp.min),\n  \t}\n  },\n  rowicons: {\n  \tdata01: {\n  \t\tcell01: msg.payload.hourly[1].weather[0].icon,\n  \t\tcell02: msg.payload.hourly[2].weather[0].icon,\n  \t\tcell03: msg.payload.hourly[3].weather[0].icon,\n  \t\tcell04: msg.payload.hourly[4].weather[0].icon,\n  \t\tcell05: msg.payload.hourly[5].weather[0].icon,\n  \t\tcell06: msg.payload.hourly[6].weather[0].icon,\n  \t\tcell07: msg.payload.daily[1].weather[0].icon,\n  \t\tcell08: msg.payload.daily[2].weather[0].icon,\n  \t\tcell09: msg.payload.daily[3].weather[0].icon,\n  \t\tcell10: msg.payload.daily[4].weather[0].icon,\n  \t}\n  }\n}\n\nreturn fcdata;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1040,
+        "y": 340,
+        "wires": [
+            [
+                "65b29f0304f84077"
+            ]
+        ]
+    },
+    {
+        "id": "2527495f8a1ead4a",
+        "type": "ui_text",
+        "z": "59141dacc2fa9a80",
+        "group": "70fb931.dfc146c",
+        "order": 3,
+        "width": 2,
+        "height": "1",
+        "name": "Temperature",
+        "label": "",
+        "format": "<p style=\"font-size: 200%\">{{msg.payload.current.temp}}</p>",
+        "layout": "row-left",
+        "className": "",
+        "x": 1310,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "88610965a62c64de",
+        "type": "http request",
+        "z": "59141dacc2fa9a80",
+        "name": "Get OWM data",
+        "method": "GET",
+        "ret": "obj",
+        "paytoqs": "query",
+        "url": "https://api.openweathermap.org/data/2.5/onecall",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 770,
+        "y": 300,
+        "wires": [
+            [
+                "2bceb9bb103c9a9b",
+                "a97074f074db8bd6",
+                "78e80ff72fb99911"
+            ]
+        ]
+    },
+    {
+        "id": "2bceb9bb103c9a9b",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Format current data",
+        "func": "var icon = {};\n\nvar units = flow.get('units');\nif (units === undefined) {units = 'imperial';}\n\nfunction timeConvert(UNIX_timestamp){\n  var dateObject = new Date(UNIX_timestamp * 1000);\n  if (flow.get('hour12')) {  // 12 hour time format\n    return dateObject.toLocaleString('en', { timezone: msg.payload.timezone, hour12: true, hour: 'numeric', minute: '2-digit'}).toLowerCase();\n  } else {  // 24 hour time format\n    return dateObject.toLocaleString('en', { timezone: msg.payload.timezone, hour12: false, hour: 'numeric', minute: '2-digit'});\n  }      \n}\n\nvar degreesToCardinal = function(deg){\n  if (deg>11.25 && deg<=33.75){return \"NNE\";}\n  else if (deg>33.75 && deg<56.25){return \"NE\";}\n  else if (deg>56.25 && deg<78.75){return \"ENE\";}\n  else if (deg>78.75 && deg<101.25){return \"E\";}\n  else if (deg>101.25 && deg<123.75){return \"ESE\";}\n  else if (deg>123.75 && deg<146.25){return \"SE\";}\n  else if (deg>146.25 && deg<168.75){return \"SSE\";}\n  else if (deg>168.75 && deg<191.25){return \"S\";}\n  else if (deg>191.25 && deg<213.75){return \"SSW\";}\n  else if (deg>213.75 && deg<236.25){return \"SW\";}\n  else if (deg>236.25 && deg<258.75){return \"WSW\";}\n  else if (deg>258.75 && deg<281.25){return \"W\";}\n  else if (deg>281.25 && deg<303.75){return \"WNW\";}\n  else if (deg>303.75 && deg<326.25){return \"NW\";}\n  else if (deg>326.25 && deg<348.75){return \"NNW\";}\n  else {return \"N\";}\n}\n\nif (units == \"imperial\")\n{\n  msg.payload.current.temp = msg.payload.current.temp.toFixed() + ' °F';\n  msg.payload.current.wind_speed = msg.payload.current.wind_speed.toFixed() + ' mph';\n}\nelse  // metric units\n{\n  msg.payload.current.temp = msg.payload.current.temp.toFixed(1) + ' °C';\n  msg.payload.current.wind_speed = msg.payload.current.wind_speed.toFixed(1) + ' m/s';\n}\n\nmsg.payload.current.wind_cardinal = degreesToCardinal(msg.payload.current.wind_deg);\n\nmsg.payload.current.sunrise = timeConvert(msg.payload.current.sunrise);\nmsg.payload.current.sunset = timeConvert(msg.payload.current.sunset);\n\nvar iconString = 'wi-owm-' + msg.payload.current.weather[0].icon + ' wi-4x';\nicon = {\n    ui_control: {\n        icon: iconString\n    }\n}; \n\nreturn [msg, icon];",
+        "outputs": 2,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1030,
+        "y": 180,
+        "wires": [
+            [
+                "2527495f8a1ead4a",
+                "bff897b453d781d1",
+                "f0d19a3324325028",
+                "ee23aa03d3ee53a2",
+                "d5299eb2a7e42560"
+            ],
+            [
+                "d09cb4e1452eb447"
+            ]
+        ]
+    },
+    {
+        "id": "0601e7ff6e560123",
+        "type": "change",
+        "z": "59141dacc2fa9a80",
+        "name": "Settings",
+        "rules": [
+            {
+                "t": "delete",
+                "p": "payload",
+                "pt": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.lat",
+                "pt": "msg",
+                "to": "lat",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "payload.lon",
+                "pt": "msg",
+                "to": "lon",
+                "tot": "flow"
+            },
+            {
+                "t": "set",
+                "p": "payload.appid",
+                "pt": "msg",
+                "to": "0db6fa33838afa1241b6964f8cbd1935",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.units",
+                "pt": "msg",
+                "to": "metric",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "payload.lang",
+                "pt": "msg",
+                "to": "en",
+                "tot": "str"
+            },
+            {
+                "t": "set",
+                "p": "hour24",
+                "pt": "flow",
+                "to": "true",
+                "tot": "bool"
+            },
+            {
+                "t": "set",
+                "p": "units",
+                "pt": "flow",
+                "to": "payload.units",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "lang",
+                "pt": "flow",
+                "to": "payload.lang",
+                "tot": "msg"
+            },
+            {
+                "t": "set",
+                "p": "payload.exclude",
+                "pt": "msg",
+                "to": "minutely",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 590,
+        "y": 300,
+        "wires": [
+            [
+                "88610965a62c64de"
+            ]
+        ]
+    },
+    {
+        "id": "b80e07e3a434ebca",
+        "type": "ui_ui_control",
+        "z": "59141dacc2fa9a80",
+        "name": "Update tab",
+        "events": "all",
+        "x": 170,
+        "y": 420,
+        "wires": [
+            [
+                "bef8484d512f3c48"
+            ]
+        ]
+    },
+    {
+        "id": "fe3802d3684f61a5",
+        "type": "link out",
+        "z": "59141dacc2fa9a80",
+        "name": "Refresh",
+        "mode": "link",
+        "links": [
+            "5612b8177aeaffc7"
+        ],
+        "x": 1435,
+        "y": 280,
+        "wires": []
+    },
+    {
+        "id": "5612b8177aeaffc7",
+        "type": "link in",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "links": [
+            "fe3802d3684f61a5",
+            "57b3e0577f785afa",
+            "23a59851602c1a3d"
+        ],
+        "x": 425,
+        "y": 300,
+        "wires": [
+            [
+                "0601e7ff6e560123"
+            ]
+        ]
+    },
+    {
+        "id": "bef8484d512f3c48",
+        "type": "switch",
+        "z": "59141dacc2fa9a80",
+        "name": "Tab focus",
+        "property": "tab",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 380,
+        "y": 420,
+        "wires": [
+            [
+                "0601e7ff6e560123"
+            ]
+        ]
+    },
+    {
+        "id": "5b3b4baa5c976def",
+        "type": "ui_button",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "group": "f2c9d6d8312163b5",
+        "order": 4,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Start Watering",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Watering cycle started",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 160,
+        "y": 600,
+        "wires": [
+            [
+                "599b3ee834c65e6d"
+            ]
+        ]
+    },
+    {
+        "id": "7c8f1275b55d5f79",
+        "type": "ui_text_input",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "label": "Set value",
+        "tooltip": "",
+        "group": "e1ed05e8d05a9e01",
+        "order": 2,
+        "width": "0",
+        "height": "0",
+        "passthru": true,
+        "mode": "text",
+        "delay": "0",
+        "topic": "topic",
+        "sendOnBlur": true,
+        "className": "",
+        "topicType": "msg",
+        "x": 140,
+        "y": 1040,
+        "wires": [
+            [
+                "2de2a5de93b2f3f6"
+            ]
+        ]
+    },
+    {
+        "id": "c89d3cc52895b9af",
+        "type": "ui_gauge",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "group": "f2c9d6d8312163b5",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "gtype": "gage",
+        "title": "Current Soil Humidity",
+        "label": "units",
+        "format": "{{value}}",
+        "min": 0,
+        "max": "1000",
+        "colors": [
+            "#e01b24",
+            "#e6e600",
+            "#3584e4"
+        ],
+        "seg1": "",
+        "seg2": "",
+        "className": "",
+        "x": 580,
+        "y": 1380,
+        "wires": []
+    },
+    {
+        "id": "3e5d5eca76037cd3",
+        "type": "ui_chart",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "group": "f2c9d6d8312163b5",
+        "order": 11,
+        "width": 0,
+        "height": 0,
+        "label": "Soil Humidity Log",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "step",
+        "nodata": "No data",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1000",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "1",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": true,
+        "colors": [
+            "#986a44",
+            "#335684",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 570,
+        "y": 1420,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "14465bf7e0584924",
+        "type": "ui_button",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "group": "e1ed05e8d05a9e01",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "OK",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "threshold",
+        "payloadType": "flow",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 1050,
+        "y": 1120,
+        "wires": [
+            [
+                "25279de1c0fa91de",
+                "177adb201c60a3c7"
+            ]
+        ]
+    },
+    {
+        "id": "a6fbb412f8742f13",
+        "type": "ui_text",
+        "z": "59141dacc2fa9a80",
+        "group": "f2c9d6d8312163b5",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Status",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 530,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "16accd9239a78fe6",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Status Receiver",
+        "func": "status = flow.get(\"status\");\n\nswitch(status) {\n    case 0:\n        msg.payload = \"Idling - Auto\";\n        break;\n    case 1:\n        msg.payload = \"Watering - Auto\";\n        break;\n    case 2:\n        msg.payload = \"Idling - Manual\";\n        break;\n    case 3:\n        msg.payload = \"Watering - Manual\";\n        break;\n    default:\n        msg.payload = \"Undefined state!\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 280,
+        "y": 1180,
+        "wires": [
+            [
+                "a6fbb412f8742f13",
+                "1b032837f682bb94"
+            ]
+        ]
+    },
+    {
+        "id": "5137500b597b5f85",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Send to flow",
+        "func": "const lat = msg.payload.lat;\nconst lon = msg.payload.lon;\n\nflow.set(\"lat\",lat);\nflow.set(\"lon\",lon);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 390,
+        "y": 200,
+        "wires": [
+            [
+                "0601e7ff6e560123"
+            ]
+        ]
+    },
+    {
+        "id": "38a2236e18b892d2",
+        "type": "ui_form",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "label": "Set location",
+        "group": "70fb931.dfc146c",
+        "order": 11,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Latitude",
+                "value": "lat",
+                "type": "number",
+                "required": true,
+                "rows": null
+            },
+            {
+                "label": "Longtitude",
+                "value": "lon",
+                "type": "number",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "lat": "",
+            "lon": ""
+        },
+        "payload": "",
+        "submit": "Submit",
+        "cancel": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": true,
+        "className": "",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "5137500b597b5f85",
+                "790200efa1c5fe97",
+                "2bf9a491332e47d2"
+            ]
+        ]
+    },
+    {
+        "id": "2de2a5de93b2f3f6",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Set threshold",
+        "func": "flow.set(\"threshold\", msg.payload);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 410,
+        "y": 1040,
+        "wires": [
+            [
+                "8dd29d747b6beaf4"
+            ]
+        ]
+    },
+    {
+        "id": "38c9078d5d1c9fef",
+        "type": "ui_chart",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "group": "f2c9d6d8312163b5",
+        "order": 13,
+        "width": 0,
+        "height": 0,
+        "label": "Watering Log",
+        "chartType": "line",
+        "legend": "false",
+        "xformat": "HH:mm:ss",
+        "interpolate": "step",
+        "nodata": "No data",
+        "dot": false,
+        "ymin": "0",
+        "ymax": "1",
+        "removeOlder": "24",
+        "removeOlderPoints": "",
+        "removeOlderUnit": "1",
+        "cutout": 0,
+        "useOneColor": false,
+        "useUTC": true,
+        "colors": [
+            "#335684",
+            "#335684",
+            "#ff7f0e",
+            "#2ca02c",
+            "#98df8a",
+            "#d62728",
+            "#ff9896",
+            "#9467bd",
+            "#c5b0d5"
+        ],
+        "outputs": 1,
+        "useDifferentColor": false,
+        "className": "",
+        "x": 550,
+        "y": 1300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "692d677a4d3c8e26",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "Visual",
+        "info": "",
+        "x": 130,
+        "y": 1260,
+        "wires": []
+    },
+    {
+        "id": "ff31bc926a3dba5e",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "Watering Status",
+        "info": "",
+        "x": 160,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "383d846dd69e9c20",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "Set Threshold",
+        "info": "",
+        "x": 150,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "7d3e1bd392fae30d",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "Weather Forecast",
+        "info": "",
+        "x": 130,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "3fb3f413dbcd030e",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "Status Setters",
+        "info": "",
+        "x": 150,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "25279de1c0fa91de",
+        "type": "ui_text",
+        "z": "59141dacc2fa9a80",
+        "group": "e1ed05e8d05a9e01",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Current value",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 1220,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "7992a9e913ef0725",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Get Watering Status",
+        "func": "msg.payload = flow.get(\"status\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 300,
+        "y": 1300,
+        "wires": [
+            [
+                "38c9078d5d1c9fef"
+            ]
+        ]
+    },
+    {
+        "id": "d57e159e951235df",
+        "type": "link in",
+        "z": "59141dacc2fa9a80",
+        "name": "Status",
+        "links": [
+            "0a73f4dfafaaf95d"
+        ],
+        "x": 105,
+        "y": 1300,
+        "wires": [
+            [
+                "7992a9e913ef0725"
+            ]
+        ]
+    },
+    {
+        "id": "790200efa1c5fe97",
+        "type": "ui_text",
+        "z": "59141dacc2fa9a80",
+        "group": "70fb931.dfc146c",
+        "order": 9,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Current latitude",
+        "format": "{{msg.payload.lat}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 400,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "2bf9a491332e47d2",
+        "type": "ui_text",
+        "z": "59141dacc2fa9a80",
+        "group": "70fb931.dfc146c",
+        "order": 10,
+        "width": 0,
+        "height": 0,
+        "name": "",
+        "label": "Current longtitude",
+        "format": "{{msg.payload.lon}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 410,
+        "y": 160,
+        "wires": []
+    },
+    {
+        "id": "78e80ff72fb99911",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Set forecast string",
+        "func": "let forecast = \"\";\n\nif (flow.get(\"outdoor\") == 1) {\n    for (let i = 1; i <= 6; i++) {\n        if (msg.payload.hourly[i].weather[0].main == \"Rain\") {\n            forecast += \"1\";\n        } else {\n            forecast += \"0\";\n        }\n    }\n} else {\n    forecast = \"000000\"\n}\n\nflow.set(\"forecast\", forecast);\n\nmsg.payload.rain = forecast;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 990,
+        "y": 420,
+        "wires": [
+            [
+                "02dfaf86359f9e15",
+                "a672712d46541c21"
+            ]
+        ]
+    },
+    {
+        "id": "5483c715918e503b",
+        "type": "ui_switch",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "label": "Outdoor",
+        "tooltip": "Turn on to switch to outdoor mode which take weather forecast into account",
+        "group": "70fb931.dfc146c",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "decouple": "false",
+        "topic": "topic",
+        "topicType": "msg",
+        "style": "",
+        "onvalue": "true",
+        "onvalueType": "bool",
+        "onicon": "",
+        "oncolor": "",
+        "offvalue": "false",
+        "offvalueType": "bool",
+        "officon": "",
+        "offcolor": "",
+        "animate": false,
+        "className": "",
+        "x": 660,
+        "y": 160,
+        "wires": [
+            [
+                "261b9b15ac1242d4"
+            ]
+        ]
+    },
+    {
+        "id": "261b9b15ac1242d4",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Set mode",
+        "func": "if (msg.payload == true) {\n    flow.set(\"outdoor\", 1);\n} else {\n    flow.set(\"outdoor\", 0);\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 220,
+        "wires": [
+            [
+                "57b3e0577f785afa"
+            ]
+        ]
+    },
+    {
+        "id": "bcd431bd8d909b59",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "README",
+        "info": "If outdoor then weather forecast will be taking into account when deciding to activate watering system.\nElse forecast will be set to \"000000\".",
+        "x": 660,
+        "y": 120,
+        "wires": []
+    },
+    {
+        "id": "4c56e34c51881ea8",
+        "type": "switch",
+        "z": "59141dacc2fa9a80",
+        "name": "Set message",
+        "property": "status",
+        "propertyType": "flow",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "0",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "1",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "2",
+                "vt": "num"
+            },
+            {
+                "t": "eq",
+                "v": "3",
+                "vt": "num"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 4,
+        "x": 610,
+        "y": 600,
+        "wires": [
+            [
+                "48445c646358e888"
+            ],
+            [
+                "5afa68c54b77f0ca"
+            ],
+            [
+                "ec2cda788345a365"
+            ],
+            [
+                "03e2f2c1feeaec47"
+            ]
+        ]
+    },
+    {
+        "id": "0e68f162b0cdbd25",
+        "type": "ui_button",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "group": "f2c9d6d8312163b5",
+        "order": 6,
+        "width": "6",
+        "height": "1",
+        "passthru": false,
+        "label": "Stop Watering",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "Watering cycle stopped",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 160,
+        "y": 680,
+        "wires": [
+            [
+                "fd33b8be6f61e4bc"
+            ]
+        ]
+    },
+    {
+        "id": "c6b3c18fd1796693",
+        "type": "ui_toast",
+        "z": "59141dacc2fa9a80",
+        "position": "dialog",
+        "displayTime": "3",
+        "highlight": "",
+        "sendall": true,
+        "outputs": 1,
+        "ok": "OK",
+        "cancel": "",
+        "raw": false,
+        "className": "",
+        "topic": "",
+        "name": "Notice",
+        "x": 970,
+        "y": 660,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "0a73f4dfafaaf95d",
+        "type": "link out",
+        "z": "59141dacc2fa9a80",
+        "name": "Manual Trigger",
+        "mode": "link",
+        "links": [
+            "ac099b9c6c8d62cf",
+            "47662aaafd62b3b9",
+            "d57e159e951235df"
+        ],
+        "x": 555,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "15c1298fff91c84b",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "ESP32",
+        "info": "",
+        "x": 130,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "39b11cd3935b0325",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "Receive incoming requests",
+        "info": "",
+        "x": 190,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "9e8e358f69a802e3",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "Send data to ESP",
+        "info": "",
+        "x": 170,
+        "y": 1740,
+        "wires": []
+    },
+    {
         "id": "23c30a26fe063c02",
         "type": "inject",
         "z": "59141dacc2fa9a80",
@@ -7,7 +1057,7 @@
         "props": [
             {
                 "p": "payload.data",
-                "v": "006000500",
+                "v": "009000500",
                 "vt": "str"
             },
             {
@@ -27,5 +1077,760 @@
                 "37c77822bd375949"
             ]
         ]
+    },
+    {
+        "id": "7a30b74cabd46fb6",
+        "type": "inject",
+        "z": "59141dacc2fa9a80",
+        "name": "Sending",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 140,
+        "y": 1820,
+        "wires": [
+            [
+                "558bec1387a74eb0"
+            ]
+        ]
+    },
+    {
+        "id": "4f8eb5cf48a64bb0",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Sender",
+        "func": "msg.payload = flow.get(\"send\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 1780,
+        "wires": [
+            [
+                "2eec1ed01cde3ee6"
+            ]
+        ]
+    },
+    {
+        "id": "63de078e9ad42a4f",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Receiver",
+        "func": "// Format: [Status:1][Moisture:4][Threshold:4]\n\nflow.set(\"receive\", msg.payload.data);\n\nmsg.payload = msg.payload.data;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 600,
+        "y": 1680,
+        "wires": [
+            [
+                "8a601502de99bbcc",
+                "416b2b3ca193420c"
+            ]
+        ]
+    },
+    {
+        "id": "c86aedc745c8420a",
+        "type": "debug",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1210,
+        "y": 1820,
+        "wires": []
+    },
+    {
+        "id": "122feaa2138a9baa",
+        "type": "debug",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 1700,
+        "wires": []
+    },
+    {
+        "id": "2eec1ed01cde3ee6",
+        "type": "http response",
+        "z": "59141dacc2fa9a80",
+        "d": true,
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 1200,
+        "y": 1780,
+        "wires": []
+    },
+    {
+        "id": "8a601502de99bbcc",
+        "type": "http response",
+        "z": "59141dacc2fa9a80",
+        "d": true,
+        "name": "",
+        "statusCode": "200",
+        "headers": {},
+        "x": 800,
+        "y": 1640,
+        "wires": []
+    },
+    {
+        "id": "558bec1387a74eb0",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Data Encoder",
+        "func": "// Format: [Year:2][Month:2][Day:2][Hour:2][Min:2][Sec:2][Status:1][Moisture:4][Threshold:4][Forecast:6]   \n\nconst isoStr = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Singapore' });\n\nlet encoded = \"\";\n\nlet time = isoStr[8] + isoStr[9] +      // year\n            isoStr[3] + isoStr[4] +     // month\n            isoStr[0] + isoStr[1] +     // day\n            isoStr[12] + isoStr[13] +   // hour\n            isoStr[15] + isoStr[16] +   // min\n            isoStr[18] + isoStr[19];    // sec\n\nlet status = flow.get(\"status\");\n\nlet moistVal = flow.get(\"moisture\");\nlet moist = \"\";\nif (moistVal < 1000) {\n    moist += 0;\n    if (moistVal < 100) {\n        moist += 0;\n        if (moistVal < 10) {\n            moist += 0;\n        }\n    }\n}\nmoist += moistVal;\n\nlet thresVal = flow.get(\"threshold\");\nlet threshold = \"\";\nif (thresVal < 1000) {\n    threshold += 0;\n    if (thresVal < 100) {\n        threshold += 0;\n        if (thresVal < 10) {\n            threshold += 0;\n        }\n    }\n}\nthreshold += thresVal;\n\nlet forecast = flow.get(\"forecast\");\n\nlet message = time + status + moist + threshold + forecast;\n\nflow.set(\"send\", message);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 1780,
+        "wires": [
+            [
+                "97a51640a5e0239b"
+            ]
+        ]
+    },
+    {
+        "id": "81c07ffa94a8f1e6",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Get moisture value",
+        "func": "\n\nmsg.payload = flow.get(\"moisture\");\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 290,
+        "y": 1380,
+        "wires": [
+            [
+                "c89d3cc52895b9af",
+                "3e5d5eca76037cd3"
+            ]
+        ]
+    },
+    {
+        "id": "416b2b3ca193420c",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Data Decoder",
+        "func": "data = flow.get(\"receive\");\n\nflow.set(\"status\", parseInt(data[0]));\n\nlet moist = \"\";\nfor (let i = 1; i < (1 + 4); i++) {\n    moist += data[i];\n}\nflow.set(\"moisture\", parseInt(moist));\n\nlet threshold = \"\";\nfor (let i = 5; i < (4 + 4); i++) {\n    threshold += data[i];\n}\nflow.set(\"threshold\", parseInt(threshold));\n\nmsg.payload = data;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 820,
+        "y": 1700,
+        "wires": [
+            [
+                "122feaa2138a9baa",
+                "23a59851602c1a3d"
+            ]
+        ]
+    },
+    {
+        "id": "23a59851602c1a3d",
+        "type": "link out",
+        "z": "59141dacc2fa9a80",
+        "name": "http",
+        "mode": "link",
+        "links": [
+            "70cc5981ee311767",
+            "47662aaafd62b3b9",
+            "c8270456e0080dd9",
+            "5612b8177aeaffc7"
+        ],
+        "x": 955,
+        "y": 1740,
+        "wires": []
+    },
+    {
+        "id": "70cc5981ee311767",
+        "type": "link in",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "links": [
+            "23a59851602c1a3d"
+        ],
+        "x": 105,
+        "y": 1380,
+        "wires": [
+            [
+                "81c07ffa94a8f1e6"
+            ]
+        ]
+    },
+    {
+        "id": "47662aaafd62b3b9",
+        "type": "link in",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "links": [
+            "23a59851602c1a3d",
+            "0a73f4dfafaaf95d"
+        ],
+        "x": 95,
+        "y": 1180,
+        "wires": [
+            [
+                "16accd9239a78fe6"
+            ]
+        ]
+    },
+    {
+        "id": "02dfaf86359f9e15",
+        "type": "debug",
+        "z": "59141dacc2fa9a80",
+        "d": true,
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload.rain",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1270,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "71984f139f881974",
+        "type": "inject",
+        "z": "59141dacc2fa9a80",
+        "name": "Default values",
+        "props": [
+            {
+                "p": "payload.lat",
+                "v": "10.8",
+                "vt": "num"
+            },
+            {
+                "p": "payload.lon",
+                "v": "106.7",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0",
+        "topic": "",
+        "x": 160,
+        "y": 260,
+        "wires": [
+            [
+                "5137500b597b5f85"
+            ]
+        ]
+    },
+    {
+        "id": "1b032837f682bb94",
+        "type": "link out",
+        "z": "59141dacc2fa9a80",
+        "name": "Update Status",
+        "mode": "link",
+        "links": [
+            "3f332d6e919da83d"
+        ],
+        "x": 495,
+        "y": 1220,
+        "wires": []
+    },
+    {
+        "id": "3f332d6e919da83d",
+        "type": "link in",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "links": [
+            "1b032837f682bb94",
+            "a672712d46541c21",
+            "177adb201c60a3c7"
+        ],
+        "x": 185,
+        "y": 1780,
+        "wires": [
+            [
+                "558bec1387a74eb0"
+            ]
+        ]
+    },
+    {
+        "id": "177adb201c60a3c7",
+        "type": "link out",
+        "z": "59141dacc2fa9a80",
+        "name": "Update Threshold",
+        "mode": "link",
+        "links": [
+            "3f332d6e919da83d"
+        ],
+        "x": 1155,
+        "y": 1140,
+        "wires": []
+    },
+    {
+        "id": "a672712d46541c21",
+        "type": "link out",
+        "z": "59141dacc2fa9a80",
+        "name": "Update Weather",
+        "mode": "link",
+        "links": [
+            "3f332d6e919da83d"
+        ],
+        "x": 1195,
+        "y": 480,
+        "wires": []
+    },
+    {
+        "id": "821b7f06fcc22472",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Formatter",
+        "func": "let raw = flow.get(\"send\");\nlet fmt = \"\";\n\nfmt += \"Year: \" + raw[0] + raw[1] + \" || \";\nfmt += \"Month: \" + raw[2] + raw[3] + \" || \";\nfmt += \"Day: \" + raw[4] + raw[5] + \" || \";\nfmt += \"Hour: \" + raw[6] + raw[7] + \" || \";\nfmt += \"Minute: \" + raw[8] + raw[9] + \" || \";\nfmt += \"Second: \" + raw[10] + raw[11] + \" || \";\nfmt += \"Status: \" + raw[12] + \" || \";\nfmt += \"Moisture: \" + raw[13] + raw[14] + raw[15] + raw[16] + \" || \";\nfmt += \"Threshold: \" + raw[17] + raw[18] + raw[19] + raw[20] + \" || \";\nfmt += \"Forecast: \" + raw[21] + raw[22] + raw[23] + raw[24] + raw[25] + raw[26];\n\nmsg.payload = raw + \" || \" + fmt;\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 1020,
+        "y": 1820,
+        "wires": [
+            [
+                "c86aedc745c8420a"
+            ]
+        ]
+    },
+    {
+        "id": "57b3e0577f785afa",
+        "type": "link out",
+        "z": "59141dacc2fa9a80",
+        "name": "Update Mode",
+        "mode": "link",
+        "links": [
+            "5612b8177aeaffc7"
+        ],
+        "x": 775,
+        "y": 220,
+        "wires": []
+    },
+    {
+        "id": "be2bc8406d8fb6ec",
+        "type": "rbe",
+        "z": "59141dacc2fa9a80",
+        "name": "Prevent Duplication",
+        "func": "rbei",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 790,
+        "y": 1780,
+        "wires": [
+            [
+                "4f8eb5cf48a64bb0",
+                "821b7f06fcc22472"
+            ]
+        ]
+    },
+    {
+        "id": "37c77822bd375949",
+        "type": "rbe",
+        "z": "59141dacc2fa9a80",
+        "name": "Prevent Duplication",
+        "func": "rbe",
+        "gap": "",
+        "start": "",
+        "inout": "out",
+        "septopics": true,
+        "property": "payload",
+        "topi": "topic",
+        "x": 370,
+        "y": 1680,
+        "wires": [
+            [
+                "63de078e9ad42a4f"
+            ]
+        ]
+    },
+    {
+        "id": "97a51640a5e0239b",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Exclude Timestamp",
+        "func": "msg.payload = flow.get(\"send\").slice(12);\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 570,
+        "y": 1780,
+        "wires": [
+            [
+                "be2bc8406d8fb6ec"
+            ]
+        ]
+    },
+    {
+        "id": "230c186696fb7ab2",
+        "type": "comment",
+        "z": "59141dacc2fa9a80",
+        "name": "About http message format...",
+        "info": "Note: [{Name-of-property}:{Number-of-character}]\n\nThe string receive from ESP (composed by Arduino) will follow the format:\n[Status:1][Moisture:4][Threshold:4]\n\nThe string to be sent to ESP and to save on cloud service:\n[Year:2][Month:2][Day:2][Hour:2][Min:2][Sec:2][Status:1][Moisture:4][Threshold:4][Forecast:6]",
+        "x": 320,
+        "y": 1580,
+        "wires": []
+    },
+    {
+        "id": "0d941b14381f5afe",
+        "type": "ui_button",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "group": "f2c9d6d8312163b5",
+        "order": 7,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Auto Watering",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "The watering cycle is used manually",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 160,
+        "y": 760,
+        "wires": [
+            [
+                "77c140189673b066"
+            ]
+        ]
+    },
+    {
+        "id": "ec2cda788345a365",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "M - I",
+        "func": "msg.payload = \"Switched to manual. Currently idling.\"\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 620,
+        "wires": [
+            [
+                "c6b3c18fd1796693"
+            ]
+        ]
+    },
+    {
+        "id": "03e2f2c1feeaec47",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "M - W",
+        "func": "msg.payload = \"Switched to manual. Currently  watering.\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 660,
+        "wires": [
+            [
+                "c6b3c18fd1796693"
+            ]
+        ]
+    },
+    {
+        "id": "599b3ee834c65e6d",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Set flow.status",
+        "func": "flow.set(\"status\", 3);\n\nmsg.payload = flow.get(\"status\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 600,
+        "wires": [
+            [
+                "4c56e34c51881ea8",
+                "0a73f4dfafaaf95d"
+            ]
+        ]
+    },
+    {
+        "id": "fd33b8be6f61e4bc",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Set flow.status",
+        "func": "flow.set(\"status\", 2);\n\nmsg.payload = flow.get(\"status\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 680,
+        "wires": [
+            [
+                "4c56e34c51881ea8",
+                "0a73f4dfafaaf95d"
+            ]
+        ]
+    },
+    {
+        "id": "77c140189673b066",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Set flow.status",
+        "func": "current = flow.get(\"status\");\n\nif (current == 0 || current == 2) {\n    flow.set(\"status\", 0);\n}\n\nelse {\n    flow.set(\"status\", 1);\n}\n\nmsg.payload = flow.get(\"status\");\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 760,
+        "wires": [
+            [
+                "4c56e34c51881ea8",
+                "0a73f4dfafaaf95d"
+            ]
+        ]
+    },
+    {
+        "id": "48445c646358e888",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "A - I",
+        "func": "msg.payload = \"Switched to auto. Currently idling.\"\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 540,
+        "wires": [
+            [
+                "c6b3c18fd1796693",
+                "cb049b4bb0435123"
+            ]
+        ]
+    },
+    {
+        "id": "5afa68c54b77f0ca",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "A - W",
+        "func": "msg.payload = \"Switched to auto. Currently watering.\";\n\n\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 790,
+        "y": 580,
+        "wires": [
+            [
+                "c6b3c18fd1796693",
+                "49e3992be850e7fb"
+            ]
+        ]
+    },
+    {
+        "id": "8dd29d747b6beaf4",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "Send notification",
+        "func": "moisture = flow.get(\"moisture\");\n\nif(moisture < (flow.get(\"threshold\") - 100)){\n    \n    msg.noti = \"Current soil moisture is too dry compare to the set threshold. \";\n}\n\nif(moisture > (flow.get(\"threshold\") + 100)){\n  \n    msg.noti = \"Current soid is too wet\";\n}\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 700,
+        "y": 1040,
+        "wires": [
+            [
+                "f47494796950beb7"
+            ]
+        ]
+    },
+    {
+        "id": "ff33bf5d464c17a0",
+        "type": "http request",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://maker.ifttt.com/trigger/sendNoti/with/key/bhOzf6xFA27TkoIVgIXzIa?value1={{noti}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 1170,
+        "y": 880,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "cb049b4bb0435123",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "A-I noti",
+        "func": "msg.noti = \"We have already watered your plants\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 540,
+        "wires": [
+            [
+                "f47494796950beb7"
+            ]
+        ]
+    },
+    {
+        "id": "f47494796950beb7",
+        "type": "link out",
+        "z": "59141dacc2fa9a80",
+        "name": "Send Noti",
+        "mode": "link",
+        "links": [
+            "3010ab1e556050fc"
+        ],
+        "x": 1115,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "49e3992be850e7fb",
+        "type": "function",
+        "z": "59141dacc2fa9a80",
+        "name": "A-W noti",
+        "func": "\nmsg.noti = \"We are now watering your plants\";\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 580,
+        "wires": [
+            [
+                "f47494796950beb7"
+            ]
+        ]
+    },
+    {
+        "id": "3010ab1e556050fc",
+        "type": "link in",
+        "z": "59141dacc2fa9a80",
+        "name": "",
+        "links": [
+            "f47494796950beb7"
+        ],
+        "x": 1015,
+        "y": 880,
+        "wires": [
+            [
+                "ff33bf5d464c17a0"
+            ]
+        ]
+    },
+    {
+        "id": "70fb931.dfc146c",
+        "type": "ui_group",
+        "name": "Weather",
+        "tab": "4bb34f67.69a87",
+        "order": 1,
+        "disp": false,
+        "width": "10",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "f2c9d6d8312163b5",
+        "type": "ui_group",
+        "name": "Data",
+        "tab": "4bb34f67.69a87",
+        "order": 3,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "e1ed05e8d05a9e01",
+        "type": "ui_group",
+        "name": "Ngưỡng kích hoạt bơm",
+        "tab": "4bb34f67.69a87",
+        "order": 2,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "4bb34f67.69a87",
+        "type": "ui_tab",
+        "name": "Capstone Project",
+        "icon": "fa-thermometer-half",
+        "order": 3,
+        "disabled": false,
+        "hidden": false
     }
 ]
