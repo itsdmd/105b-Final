@@ -1,17 +1,17 @@
 [
     {
-        "id": "430f1f83b71bdc48",
+        "id": "49695c7bb779ab29",
         "type": "tab",
         "label": "CS105b Final",
         "disabled": false,
         "info": ""
     },
     {
-        "id": "3a5870d47fcd4e01",
+        "id": "a3449d8c97e488df",
         "type": "ui_button",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "IconRefresh",
-        "group": "70fb931.dfc146c",
+        "group": "08578dec6b2cb5e0",
         "order": 2,
         "width": 2,
         "height": 2,
@@ -30,15 +30,15 @@
         "y": 280,
         "wires": [
             [
-                "9922672e334aa57f"
+                "c67815ae04ee6815"
             ]
         ]
     },
     {
-        "id": "82bc3459652d477b",
+        "id": "3e3cc365023601ad",
         "type": "ui_text",
-        "z": "430f1f83b71bdc48",
-        "group": "70fb931.dfc146c",
+        "z": "49695c7bb779ab29",
+        "group": "08578dec6b2cb5e0",
         "order": 6,
         "width": 5,
         "height": "1",
@@ -52,10 +52,10 @@
         "wires": []
     },
     {
-        "id": "3e8d818046d7ffef",
+        "id": "21a4d957c5dc3962",
         "type": "ui_text",
-        "z": "430f1f83b71bdc48",
-        "group": "70fb931.dfc146c",
+        "z": "49695c7bb779ab29",
+        "group": "08578dec6b2cb5e0",
         "order": 4,
         "width": 3,
         "height": "1",
@@ -69,10 +69,10 @@
         "wires": []
     },
     {
-        "id": "235f47a80df4b001",
+        "id": "f43693904b6ba85c",
         "type": "ui_text",
-        "z": "430f1f83b71bdc48",
-        "group": "70fb931.dfc146c",
+        "z": "49695c7bb779ab29",
+        "group": "08578dec6b2cb5e0",
         "order": 5,
         "width": 3,
         "height": 1,
@@ -86,10 +86,10 @@
         "wires": []
     },
     {
-        "id": "33ea444c8e168f74",
+        "id": "d6e417f2959055be",
         "type": "ui_text",
-        "z": "430f1f83b71bdc48",
-        "group": "70fb931.dfc146c",
+        "z": "49695c7bb779ab29",
+        "group": "08578dec6b2cb5e0",
         "order": 7,
         "width": 3,
         "height": 1,
@@ -103,10 +103,10 @@
         "wires": []
     },
     {
-        "id": "ba535e4e9c245692",
+        "id": "e9fe07b5d521560d",
         "type": "ui_template",
-        "z": "430f1f83b71bdc48",
-        "group": "70fb931.dfc146c",
+        "z": "49695c7bb779ab29",
+        "group": "08578dec6b2cb5e0",
         "name": "Forecast Info",
         "order": 8,
         "width": "10",
@@ -124,9 +124,9 @@
         ]
     },
     {
-        "id": "72e8528ef3e3800f",
+        "id": "4073421c301f2662",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Format forecast data",
         "func": "var fcdata = {};\nvar units=flow.get('units');\nif (units===undefined)\n{\n  units=\"imperial\";\n}\n\nfunction formatTemp(high, low){\n    if (units == \"imperial\") {\n        if (low){\n          temp = parseFloat(high).toFixed() + '/' + parseFloat(low).toFixed()\n        }\n        else {\n          temp = parseFloat(high).toFixed() + '°F'\n        }\n    }\n    else { // metric\n        if (low){\n          temp = parseFloat(high).toFixed() + '/' + parseFloat(low).toFixed()\n        }\n        else {\n          temp = parseFloat(high).toFixed() + '°C'\n        }\n    }\n    return temp;\n}\n\nfunction dayName(unixTime){\n  var dateObject = new Date(unixTime * 1000);\n  return dateObject.toLocaleString(flow.get('lang'), { timezone: msg.payload.timezone, weekday: 'short'});\n  // If the line above is not producing the correct short weekday names for the language set by 'lang',\n  //   you can try upgrading to NodeJS version 13 or higher (when full international support was added for the toLocaleString function),\n  //   or you can use the code below which is an example for French short weekday names.\n/*  \n  switch (dateObject.toLocaleString('en', { timezone: msg.payload.timezone, weekday: 'short'})) {\n    case 'Mon':\n      return 'Lun';\n    case 'Tue':\n      return 'Mar';\n    case 'Wed':\n      return 'Mer';\n    case 'Thu':\n      return 'Jeu';\n    case 'Fri':\n      return 'Ven';\n    case 'Sat':\n      return 'Sam';\n    case 'Sun':\n      return 'Dim';\n  }\n*/\n}\n\nfunction timeConvert(UNIX_timestamp){\n  var dateObject = new Date(UNIX_timestamp * 1000);\n  if (flow.get('hour12')) {  // 12 hour time format\n    return dateObject.toLocaleString('en', { timezone: msg.payload.timezone, hour12: true, hour: 'numeric'}).toLowerCase();\n  } else {  // 24 hour time format\n    return dateObject.toLocaleString('en', { timezone: msg.payload.timezone, hour12: false, hour: 'numeric'}) + ':00';\n  }      \n}\n\n// prepare forecast data for CSS based ui widget\nfcdata.payload = {\n  rowtext: {\n  \tdata01: {\n      cell01: timeConvert(msg.payload.hourly[1].dt),\n      cell02: timeConvert(msg.payload.hourly[2].dt),\n      cell03: timeConvert(msg.payload.hourly[3].dt),\n      cell04: timeConvert(msg.payload.hourly[4].dt),\n      cell05: timeConvert(msg.payload.hourly[5].dt),\n      cell06: timeConvert(msg.payload.hourly[6].dt),\n      cell07: dayName(msg.payload.daily[1].dt),\n      cell08: dayName(msg.payload.daily[2].dt),\n      cell09: dayName(msg.payload.daily[3].dt),\n      cell10: dayName(msg.payload.daily[4].dt),\n  \t},\n  \tdata02: {\n       cell01: formatTemp(msg.payload.hourly[1].temp),\n       cell02: formatTemp(msg.payload.hourly[2].temp),\n       cell03: formatTemp(msg.payload.hourly[3].temp),\n       cell04: formatTemp(msg.payload.hourly[4].temp),\n       cell05: formatTemp(msg.payload.hourly[5].temp),\n       cell06: formatTemp(msg.payload.hourly[6].temp),\n       cell07: formatTemp(msg.payload.daily[1].temp.max, msg.payload.daily[0].temp.min),\n       cell08: formatTemp(msg.payload.daily[2].temp.max, msg.payload.daily[1].temp.min),\n       cell09: formatTemp(msg.payload.daily[3].temp.max, msg.payload.daily[2].temp.min),\n       cell10: formatTemp(msg.payload.daily[4].temp.max, msg.payload.daily[3].temp.min),\n  \t}\n  },\n  rowicons: {\n  \tdata01: {\n  \t\tcell01: msg.payload.hourly[1].weather[0].icon,\n  \t\tcell02: msg.payload.hourly[2].weather[0].icon,\n  \t\tcell03: msg.payload.hourly[3].weather[0].icon,\n  \t\tcell04: msg.payload.hourly[4].weather[0].icon,\n  \t\tcell05: msg.payload.hourly[5].weather[0].icon,\n  \t\tcell06: msg.payload.hourly[6].weather[0].icon,\n  \t\tcell07: msg.payload.daily[1].weather[0].icon,\n  \t\tcell08: msg.payload.daily[2].weather[0].icon,\n  \t\tcell09: msg.payload.daily[3].weather[0].icon,\n  \t\tcell10: msg.payload.daily[4].weather[0].icon,\n  \t}\n  }\n}\n\nreturn fcdata;",
         "outputs": 1,
@@ -138,15 +138,15 @@
         "y": 340,
         "wires": [
             [
-                "ba535e4e9c245692"
+                "e9fe07b5d521560d"
             ]
         ]
     },
     {
-        "id": "e3adb087ce4ce9c7",
+        "id": "589c515e073882e9",
         "type": "ui_text",
-        "z": "430f1f83b71bdc48",
-        "group": "70fb931.dfc146c",
+        "z": "49695c7bb779ab29",
+        "group": "08578dec6b2cb5e0",
         "order": 3,
         "width": 2,
         "height": "1",
@@ -160,9 +160,9 @@
         "wires": []
     },
     {
-        "id": "52412ecdb1cd0e72",
+        "id": "3005cd4f1543eb71",
         "type": "http request",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Get OWM data",
         "method": "GET",
         "ret": "obj",
@@ -177,16 +177,16 @@
         "y": 300,
         "wires": [
             [
-                "82d9fe772e9e5d32",
-                "72e8528ef3e3800f",
-                "d7ce556e1f39168a"
+                "b4cbeca67366ab58",
+                "4073421c301f2662",
+                "1951bd9992cc748b"
             ]
         ]
     },
     {
-        "id": "82d9fe772e9e5d32",
+        "id": "b4cbeca67366ab58",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Format current data",
         "func": "var icon = {};\n\nvar units = flow.get('units');\nif (units === undefined) {units = 'imperial';}\n\nfunction timeConvert(UNIX_timestamp){\n  var dateObject = new Date(UNIX_timestamp * 1000);\n  if (flow.get('hour12')) {  // 12 hour time format\n    return dateObject.toLocaleString('en', { timezone: msg.payload.timezone, hour12: true, hour: 'numeric', minute: '2-digit'}).toLowerCase();\n  } else {  // 24 hour time format\n    return dateObject.toLocaleString('en', { timezone: msg.payload.timezone, hour12: false, hour: 'numeric', minute: '2-digit'});\n  }      \n}\n\nvar degreesToCardinal = function(deg){\n  if (deg>11.25 && deg<=33.75){return \"NNE\";}\n  else if (deg>33.75 && deg<56.25){return \"NE\";}\n  else if (deg>56.25 && deg<78.75){return \"ENE\";}\n  else if (deg>78.75 && deg<101.25){return \"E\";}\n  else if (deg>101.25 && deg<123.75){return \"ESE\";}\n  else if (deg>123.75 && deg<146.25){return \"SE\";}\n  else if (deg>146.25 && deg<168.75){return \"SSE\";}\n  else if (deg>168.75 && deg<191.25){return \"S\";}\n  else if (deg>191.25 && deg<213.75){return \"SSW\";}\n  else if (deg>213.75 && deg<236.25){return \"SW\";}\n  else if (deg>236.25 && deg<258.75){return \"WSW\";}\n  else if (deg>258.75 && deg<281.25){return \"W\";}\n  else if (deg>281.25 && deg<303.75){return \"WNW\";}\n  else if (deg>303.75 && deg<326.25){return \"NW\";}\n  else if (deg>326.25 && deg<348.75){return \"NNW\";}\n  else {return \"N\";}\n}\n\nif (units == \"imperial\")\n{\n  msg.payload.current.temp = msg.payload.current.temp.toFixed() + ' °F';\n  msg.payload.current.wind_speed = msg.payload.current.wind_speed.toFixed() + ' mph';\n}\nelse  // metric units\n{\n  msg.payload.current.temp = msg.payload.current.temp.toFixed(1) + ' °C';\n  msg.payload.current.wind_speed = msg.payload.current.wind_speed.toFixed(1) + ' m/s';\n}\n\nmsg.payload.current.wind_cardinal = degreesToCardinal(msg.payload.current.wind_deg);\n\nmsg.payload.current.sunrise = timeConvert(msg.payload.current.sunrise);\nmsg.payload.current.sunset = timeConvert(msg.payload.current.sunset);\n\nvar iconString = 'wi-owm-' + msg.payload.current.weather[0].icon + ' wi-4x';\nicon = {\n    ui_control: {\n        icon: iconString\n    }\n}; \n\nreturn [msg, icon];",
         "outputs": 2,
@@ -198,21 +198,21 @@
         "y": 180,
         "wires": [
             [
-                "e3adb087ce4ce9c7",
-                "3e8d818046d7ffef",
-                "82bc3459652d477b",
-                "235f47a80df4b001",
-                "33ea444c8e168f74"
+                "589c515e073882e9",
+                "21a4d957c5dc3962",
+                "3e3cc365023601ad",
+                "f43693904b6ba85c",
+                "d6e417f2959055be"
             ],
             [
-                "3a5870d47fcd4e01"
+                "a3449d8c97e488df"
             ]
         ]
     },
     {
-        "id": "2e0a8d924b24f9df",
+        "id": "1304e6fc02c09405",
         "type": "change",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Settings",
         "rules": [
             {
@@ -293,58 +293,58 @@
         "y": 300,
         "wires": [
             [
-                "52412ecdb1cd0e72"
+                "3005cd4f1543eb71"
             ]
         ]
     },
     {
-        "id": "f80a56048e1f0f44",
+        "id": "caea24acd1230ac1",
         "type": "ui_ui_control",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Update tab",
         "events": "all",
         "x": 270,
         "y": 420,
         "wires": [
             [
-                "cbde9fbca150e8ed"
+                "67beb2e1520b0613"
             ]
         ]
     },
     {
-        "id": "9922672e334aa57f",
+        "id": "c67815ae04ee6815",
         "type": "link out",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Refresh",
         "mode": "link",
         "links": [
-            "f38941daee0d6ed4"
+            "13a212886218653f"
         ],
         "x": 1495,
         "y": 280,
         "wires": []
     },
     {
-        "id": "f38941daee0d6ed4",
+        "id": "13a212886218653f",
         "type": "link in",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Refresh Forecast",
         "links": [
-            "9922672e334aa57f",
-            "f12fcc7d0294441d"
+            "c67815ae04ee6815",
+            "58a1c9da4640fa76"
         ],
         "x": 525,
         "y": 300,
         "wires": [
             [
-                "2e0a8d924b24f9df"
+                "1304e6fc02c09405"
             ]
         ]
     },
     {
-        "id": "cbde9fbca150e8ed",
+        "id": "67beb2e1520b0613",
         "type": "switch",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Tab focus",
         "property": "tab",
         "propertyType": "msg",
@@ -362,16 +362,16 @@
         "y": 420,
         "wires": [
             [
-                "2e0a8d924b24f9df"
+                "1304e6fc02c09405"
             ]
         ]
     },
     {
-        "id": "4cbf83a9132b69cf",
+        "id": "6ed95a22a9352bb0",
         "type": "ui_button",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
-        "group": "f2c9d6d8312163b5",
+        "group": "82fd80b28a1b4b5a",
         "order": 4,
         "width": "6",
         "height": "1",
@@ -390,14 +390,14 @@
         "y": 600,
         "wires": [
             [
-                "d513eb5f547e559a"
+                "8df603a021fdb195"
             ]
         ]
     },
     {
-        "id": "9cc92a6ff703bdb0",
+        "id": "9080750b9782be47",
         "type": "ui_text_input",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
         "label": "Set value",
         "tooltip": "",
@@ -416,16 +416,16 @@
         "y": 1000,
         "wires": [
             [
-                "4521adcfb18a5b6f"
+                "0517c2975e745b7d"
             ]
         ]
     },
     {
-        "id": "0d3d30550c92f28c",
+        "id": "4d49344ce9d6d20b",
         "type": "ui_gauge",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
-        "group": "f2c9d6d8312163b5",
+        "group": "82fd80b28a1b4b5a",
         "order": 9,
         "width": 0,
         "height": 0,
@@ -448,11 +448,11 @@
         "wires": []
     },
     {
-        "id": "e648dfb4a33373fe",
+        "id": "01031a96064075f3",
         "type": "ui_chart",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
-        "group": "f2c9d6d8312163b5",
+        "group": "82fd80b28a1b4b5a",
         "order": 11,
         "width": 0,
         "height": 0,
@@ -492,9 +492,9 @@
         ]
     },
     {
-        "id": "2d0fb2cec549fad9",
+        "id": "b43be0d65e0a1772",
         "type": "ui_button",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
         "group": "e1ed05e8d05a9e01",
         "order": 3,
@@ -515,16 +515,16 @@
         "y": 980,
         "wires": [
             [
-                "e2828af2294b511c",
-                "edc0843e704c928e"
+                "88d4a1eae820e7e4",
+                "463ed6b22be1ea49"
             ]
         ]
     },
     {
-        "id": "095e6e53f6ab5e37",
+        "id": "f1e5c567b7566210",
         "type": "ui_text",
-        "z": "430f1f83b71bdc48",
-        "group": "f2c9d6d8312163b5",
+        "z": "49695c7bb779ab29",
+        "group": "82fd80b28a1b4b5a",
         "order": 2,
         "width": 0,
         "height": 0,
@@ -538,9 +538,9 @@
         "wires": []
     },
     {
-        "id": "bd003b5437761e14",
+        "id": "1a9593171d7802f2",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Text Status",
         "func": "status = flow.get(\"status\");\n\nswitch(status) {\n    case 0:\n        msg.payload = \"Idling - Auto\";\n        break;\n    case 1:\n        msg.payload = \"Watering - Auto\";\n        break;\n    case 2:\n        msg.payload = \"Idling - Manual\";\n        break;\n    case 3:\n        msg.payload = \"Watering - Manual\";\n        break;\n    default:\n        msg.payload = \"Undefined state!\";\n}\n\nreturn msg;",
         "outputs": 1,
@@ -552,14 +552,14 @@
         "y": 1240,
         "wires": [
             [
-                "095e6e53f6ab5e37"
+                "f1e5c567b7566210"
             ]
         ]
     },
     {
-        "id": "c95d2579f0880f73",
+        "id": "c48d7a20e16fc81b",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Send to flow",
         "func": "const lat = msg.payload.lat;\nconst lon = msg.payload.lon;\n\nflow.set(\"lat\",lat);\nflow.set(\"lon\",lon);\n\nreturn msg;",
         "outputs": 1,
@@ -571,17 +571,17 @@
         "y": 200,
         "wires": [
             [
-                "2e0a8d924b24f9df"
+                "1304e6fc02c09405"
             ]
         ]
     },
     {
-        "id": "746a6f93bb7dc9a1",
+        "id": "de633370465962a1",
         "type": "ui_form",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
         "label": "Set location (max 1 digit after decimal pt.)",
-        "group": "70fb931.dfc146c",
+        "group": "08578dec6b2cb5e0",
         "order": 11,
         "width": 0,
         "height": 0,
@@ -616,16 +616,16 @@
         "y": 160,
         "wires": [
             [
-                "c95d2579f0880f73",
-                "286f8ca2e5376c61",
-                "08f868572dc4d179"
+                "c48d7a20e16fc81b",
+                "7015c6b5f9b84048",
+                "384d71c0b3c29498"
             ]
         ]
     },
     {
-        "id": "4521adcfb18a5b6f",
+        "id": "0517c2975e745b7d",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Set threshold",
         "func": "flow.set(\"threshold\", msg.payload);\n\nreturn msg;",
         "outputs": 1,
@@ -640,11 +640,11 @@
         ]
     },
     {
-        "id": "5ee94de690af1bab",
+        "id": "04cb0423559404aa",
         "type": "ui_chart",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
-        "group": "f2c9d6d8312163b5",
+        "group": "82fd80b28a1b4b5a",
         "order": 13,
         "width": 0,
         "height": 0,
@@ -684,9 +684,9 @@
         ]
     },
     {
-        "id": "e12632958f326437",
+        "id": "cbed6f32a5bc8f97",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Visual",
         "info": "",
         "x": 130,
@@ -694,9 +694,9 @@
         "wires": []
     },
     {
-        "id": "024dd5c09a5ce6ef",
+        "id": "e7c48c58f6c3ac2d",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Set Threshold",
         "info": "",
         "x": 150,
@@ -704,9 +704,9 @@
         "wires": []
     },
     {
-        "id": "19d8235640f7ace9",
+        "id": "45af45e953dd18b4",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Weather Forecast",
         "info": "",
         "x": 170,
@@ -714,9 +714,9 @@
         "wires": []
     },
     {
-        "id": "23f49011ef5d19d2",
+        "id": "7fe4dd1869811654",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Status Setters",
         "info": "",
         "x": 150,
@@ -724,9 +724,9 @@
         "wires": []
     },
     {
-        "id": "e2828af2294b511c",
+        "id": "88d4a1eae820e7e4",
         "type": "ui_text",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "group": "e1ed05e8d05a9e01",
         "order": 1,
         "width": 0,
@@ -741,9 +741,9 @@
         "wires": []
     },
     {
-        "id": "13bf7983cbfea0fb",
+        "id": "808b7aa85c8d96a7",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Digit Status",
         "func": "msg.payload = flow.get(\"status\");\n\nreturn msg;",
         "outputs": 1,
@@ -755,15 +755,15 @@
         "y": 1280,
         "wires": [
             [
-                "5ee94de690af1bab"
+                "04cb0423559404aa"
             ]
         ]
     },
     {
-        "id": "286f8ca2e5376c61",
+        "id": "7015c6b5f9b84048",
         "type": "ui_text",
-        "z": "430f1f83b71bdc48",
-        "group": "70fb931.dfc146c",
+        "z": "49695c7bb779ab29",
+        "group": "08578dec6b2cb5e0",
         "order": 9,
         "width": 0,
         "height": 0,
@@ -777,10 +777,10 @@
         "wires": []
     },
     {
-        "id": "08f868572dc4d179",
+        "id": "384d71c0b3c29498",
         "type": "ui_text",
-        "z": "430f1f83b71bdc48",
-        "group": "70fb931.dfc146c",
+        "z": "49695c7bb779ab29",
+        "group": "08578dec6b2cb5e0",
         "order": 10,
         "width": 0,
         "height": 0,
@@ -794,9 +794,9 @@
         "wires": []
     },
     {
-        "id": "d7ce556e1f39168a",
+        "id": "1951bd9992cc748b",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Set forecast string",
         "func": "let forecast = \"\";\n\nif (flow.get(\"outdoor\") == 1) {\n    for (let i = 1; i <= 6; i++) {\n        if (msg.payload.hourly[i].weather[0].main == \"Rain\") {\n            forecast += \"1\";\n        } else {\n            forecast += \"0\";\n        }\n    }\n} else {\n    forecast = \"000000\"\n}\n\nflow.set(\"forecast\", forecast);\n\nmsg.payload.rain = forecast;\n\nreturn msg;",
         "outputs": 1,
@@ -808,19 +808,19 @@
         "y": 420,
         "wires": [
             [
-                "92e9eee18a77dc1a",
-                "091ea786c657226a"
+                "7b46f497d1b237df",
+                "2ffd10f969833522"
             ]
         ]
     },
     {
-        "id": "c606e93ffd5dc5bc",
+        "id": "c850fd7abb8661a8",
         "type": "ui_switch",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
         "label": "Outdoor",
         "tooltip": "Turn on to switch to outdoor mode which take weather forecast into account",
-        "group": "70fb931.dfc146c",
+        "group": "08578dec6b2cb5e0",
         "order": 1,
         "width": 0,
         "height": 0,
@@ -843,14 +843,14 @@
         "y": 360,
         "wires": [
             [
-                "7c497887b5f033d7"
+                "b2621eb1e766c7ee"
             ]
         ]
     },
     {
-        "id": "7c497887b5f033d7",
+        "id": "b2621eb1e766c7ee",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Set mode",
         "func": "if (msg.payload == true) {\n    flow.set(\"outdoor\", 1);\n} else {\n    flow.set(\"outdoor\", 0);\n}\n\nreturn msg;",
         "outputs": 1,
@@ -862,14 +862,14 @@
         "y": 360,
         "wires": [
             [
-                "2e0a8d924b24f9df"
+                "1304e6fc02c09405"
             ]
         ]
     },
     {
-        "id": "d9328f3af7244ab7",
+        "id": "9b0fc2bae1b5d397",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "README",
         "info": "If outdoor then weather forecast will be taking into account when deciding to activate watering system.\nElse forecast will be set to \"000000\".",
         "x": 280,
@@ -877,9 +877,9 @@
         "wires": []
     },
     {
-        "id": "4b9cb24c36f66cb5",
+        "id": "ae6fb3d58f585bd0",
         "type": "switch",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Set message",
         "property": "status",
         "propertyType": "flow",
@@ -912,27 +912,27 @@
         "y": 640,
         "wires": [
             [
-                "590221dafd51a653",
-                "17bd66938fa88cc5"
+                "27a9b57c7a10fd8e",
+                "175a096458e30749"
             ],
             [
-                "8a3612536725032d",
-                "4aeda0c93b198080"
+                "fe8dc6e72ffef14f",
+                "084d6e3a70a440db"
             ],
             [
-                "805986264d838389"
+                "2252dd99762791b1"
             ],
             [
-                "95ab830ed258995e"
+                "cddd6238ccdffac4"
             ]
         ]
     },
     {
-        "id": "0971667715a64157",
+        "id": "1f4d462db2e36752",
         "type": "ui_button",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
-        "group": "f2c9d6d8312163b5",
+        "group": "82fd80b28a1b4b5a",
         "order": 6,
         "width": "6",
         "height": "1",
@@ -951,14 +951,14 @@
         "y": 680,
         "wires": [
             [
-                "db84a820c080859b"
+                "19d44d917447fdea"
             ]
         ]
     },
     {
-        "id": "c5168e962d08709e",
+        "id": "e05ca8deb17783f1",
         "type": "ui_toast",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "position": "dialog",
         "displayTime": "3",
         "highlight": "",
@@ -977,23 +977,23 @@
         ]
     },
     {
-        "id": "52a8daa9ecbfa98a",
+        "id": "e1761b2547947f13",
         "type": "link out",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Manual Trigger",
         "mode": "link",
         "links": [
-            "1417bd86ac1957a9",
-            "86bb37b529936f12"
+            "223f6ae9b4ee63b4",
+            "af53683de454530f"
         ],
         "x": 555,
         "y": 720,
         "wires": []
     },
     {
-        "id": "44657ef5a2a4b74f",
+        "id": "c6b61c3ca7178e9b",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Get moisture value",
         "func": "msg.payload = parseInt(flow.get(\"moisture\"));\n\nreturn msg;",
         "outputs": 1,
@@ -1005,70 +1005,69 @@
         "y": 1380,
         "wires": [
             [
-                "0d3d30550c92f28c",
-                "e648dfb4a33373fe",
-                "bf57ec86ea83fe31"
+                "4d49344ce9d6d20b",
+                "01031a96064075f3",
+                "6f2d39f8652ad49e"
             ]
         ]
     },
     {
-        "id": "f12fcc7d0294441d",
+        "id": "58a1c9da4640fa76",
         "type": "link out",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Received from Wokwi",
         "mode": "link",
         "links": [
-            "1417bd86ac1957a9",
-            "637b7918cfce1a20",
-            "ed74a686ab0a424b",
-            "f38941daee0d6ed4",
-            "81dd2bd8ac087ce5"
+            "13a212886218653f",
+            "223f6ae9b4ee63b4",
+            "79f5f84d95afcd79",
+            "a85ed09e28cfedf2"
         ],
         "x": 965,
         "y": 1880,
         "wires": []
     },
     {
-        "id": "ed74a686ab0a424b",
+        "id": "a85ed09e28cfedf2",
         "type": "link in",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Moisture",
         "links": [
-            "519c9fc0e798a0df",
-            "edc0843e704c928e",
-            "f12fcc7d0294441d"
+            "8ac77ac89e32a8ed",
+            "463ed6b22be1ea49",
+            "58a1c9da4640fa76"
         ],
         "x": 105,
         "y": 1380,
         "wires": [
             [
-                "44657ef5a2a4b74f"
+                "c6b61c3ca7178e9b"
             ]
         ]
     },
     {
-        "id": "1417bd86ac1957a9",
+        "id": "223f6ae9b4ee63b4",
         "type": "link in",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Status Receiver",
         "links": [
-            "519c9fc0e798a0df",
-            "52a8daa9ecbfa98a",
-            "f12fcc7d0294441d"
+            "8ac77ac89e32a8ed",
+            "e1761b2547947f13",
+            "58a1c9da4640fa76"
         ],
         "x": 105,
         "y": 1260,
         "wires": [
             [
-                "bd003b5437761e14",
-                "13bf7983cbfea0fb"
+                "1a9593171d7802f2",
+                "808b7aa85c8d96a7"
             ]
         ]
     },
     {
-        "id": "92e9eee18a77dc1a",
+        "id": "7b46f497d1b237df",
         "type": "debug",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "d": true,
         "name": "",
         "active": true,
@@ -1084,57 +1083,57 @@
         "wires": []
     },
     {
-        "id": "86bb37b529936f12",
+        "id": "af53683de454530f",
         "type": "link in",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Send to Wokwi",
         "links": [
-            "091ea786c657226a",
+            "2ffd10f969833522",
             "c1eea94e5c0d93be",
-            "edc0843e704c928e",
-            "52a8daa9ecbfa98a"
+            "463ed6b22be1ea49",
+            "e1761b2547947f13"
         ],
         "x": 265,
         "y": 2020,
         "wires": [
             [
-                "20627751638a618e"
+                "485d89d8e9453b99"
             ]
         ]
     },
     {
-        "id": "edc0843e704c928e",
+        "id": "463ed6b22be1ea49",
         "type": "link out",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Update Threshold",
         "mode": "link",
         "links": [
-            "86bb37b529936f12",
-            "ed74a686ab0a424b"
+            "af53683de454530f",
+            "a85ed09e28cfedf2"
         ],
         "x": 795,
         "y": 1020,
         "wires": []
     },
     {
-        "id": "091ea786c657226a",
+        "id": "2ffd10f969833522",
         "type": "link out",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Update Forecast",
         "mode": "link",
         "links": [
-            "86bb37b529936f12"
+            "af53683de454530f"
         ],
         "x": 1315,
         "y": 420,
         "wires": []
     },
     {
-        "id": "17c74ac37d53642e",
+        "id": "076a1334f9270c18",
         "type": "ui_button",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
-        "group": "f2c9d6d8312163b5",
+        "group": "82fd80b28a1b4b5a",
         "order": 7,
         "width": 0,
         "height": 0,
@@ -1153,14 +1152,14 @@
         "y": 760,
         "wires": [
             [
-                "76f480a169339079"
+                "54b161129fc20d3a"
             ]
         ]
     },
     {
-        "id": "805986264d838389",
+        "id": "2252dd99762791b1",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "M - I",
         "func": "msg.payload = \"Watering cycle stopped manually.\"\n\nreturn msg;",
         "outputs": 1,
@@ -1172,14 +1171,14 @@
         "y": 700,
         "wires": [
             [
-                "1d78250f035d2bda"
+                "8dd2a780ff7d71d4"
             ]
         ]
     },
     {
-        "id": "95ab830ed258995e",
+        "id": "cddd6238ccdffac4",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "M - W",
         "func": "msg.payload = \"Watering cycle started manually\";\n\nreturn msg;",
         "outputs": 1,
@@ -1191,14 +1190,14 @@
         "y": 740,
         "wires": [
             [
-                "1d78250f035d2bda"
+                "8dd2a780ff7d71d4"
             ]
         ]
     },
     {
-        "id": "d513eb5f547e559a",
+        "id": "8df603a021fdb195",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Set flow.status",
         "func": "flow.set(\"status\", 3);\n\nmsg.payload = flow.get(\"status\");\n\nreturn msg;",
         "outputs": 1,
@@ -1210,15 +1209,15 @@
         "y": 600,
         "wires": [
             [
-                "4b9cb24c36f66cb5",
-                "52a8daa9ecbfa98a"
+                "ae6fb3d58f585bd0",
+                "e1761b2547947f13"
             ]
         ]
     },
     {
-        "id": "db84a820c080859b",
+        "id": "19d44d917447fdea",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Set flow.status",
         "func": "flow.set(\"status\", 2);\n\nmsg.payload = flow.get(\"status\");\n\nreturn msg;",
         "outputs": 1,
@@ -1230,15 +1229,15 @@
         "y": 680,
         "wires": [
             [
-                "4b9cb24c36f66cb5",
-                "52a8daa9ecbfa98a"
+                "ae6fb3d58f585bd0",
+                "e1761b2547947f13"
             ]
         ]
     },
     {
-        "id": "76f480a169339079",
+        "id": "54b161129fc20d3a",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Set flow.status",
         "func": "current = flow.get(\"status\");\n\nif (current == 0 || current == 2) {\n    flow.set(\"status\", 0);\n}\n\nelse {\n    flow.set(\"status\", 1);\n}\n\nmsg.payload = flow.get(\"status\");\n\nreturn msg;",
         "outputs": 1,
@@ -1250,15 +1249,15 @@
         "y": 760,
         "wires": [
             [
-                "4b9cb24c36f66cb5",
-                "52a8daa9ecbfa98a"
+                "ae6fb3d58f585bd0",
+                "e1761b2547947f13"
             ]
         ]
     },
     {
-        "id": "590221dafd51a653",
+        "id": "27a9b57c7a10fd8e",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "A - I",
         "func": "msg.payload = \"Watering cycle stopped automatically.\"\n\n\n\nreturn msg;",
         "outputs": 1,
@@ -1270,14 +1269,14 @@
         "y": 540,
         "wires": [
             [
-                "1d78250f035d2bda"
+                "8dd2a780ff7d71d4"
             ]
         ]
     },
     {
-        "id": "8a3612536725032d",
+        "id": "fe8dc6e72ffef14f",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "A - W",
         "func": "msg.payload = \"Watering cycle started automatically.\";\n\n\n\nreturn msg;",
         "outputs": 1,
@@ -1289,14 +1288,14 @@
         "y": 620,
         "wires": [
             [
-                "1d78250f035d2bda"
+                "8dd2a780ff7d71d4"
             ]
         ]
     },
     {
-        "id": "38ae7033f6c66b23",
+        "id": "255d3c19ea79c979",
         "type": "http request",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "d": true,
         "name": "Send Notification to IFTTT",
         "method": "GET",
@@ -1315,9 +1314,9 @@
         ]
     },
     {
-        "id": "17bd66938fa88cc5",
+        "id": "175a096458e30749",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "A-I Noti",
         "func": "flow.set(\"noti\", \"Watering cycle stopped automatically.\");\n\nreturn msg;",
         "outputs": 1,
@@ -1329,27 +1328,27 @@
         "y": 580,
         "wires": [
             [
-                "c7289bf234bc7e39"
+                "d2c6b4ab21bf1e61"
             ]
         ]
     },
     {
-        "id": "c7289bf234bc7e39",
+        "id": "d2c6b4ab21bf1e61",
         "type": "link out",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Send Status Noti",
         "mode": "link",
         "links": [
-            "40cd9e5892a89f88"
+            "344efd2cceb3164e"
         ],
         "x": 955,
         "y": 620,
         "wires": []
     },
     {
-        "id": "4aeda0c93b198080",
+        "id": "084d6e3a70a440db",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "A-W Noti",
         "func": "flow.set(\"noti\", \"Watering cycle started automatically.\");\n\nreturn msg;",
         "outputs": 1,
@@ -1361,31 +1360,31 @@
         "y": 660,
         "wires": [
             [
-                "c7289bf234bc7e39"
+                "d2c6b4ab21bf1e61"
             ]
         ]
     },
     {
-        "id": "40cd9e5892a89f88",
+        "id": "344efd2cceb3164e",
         "type": "link in",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Send Noti",
         "links": [
-            "c7289bf234bc7e39",
-            "dda05c9a9cb48137"
+            "d2c6b4ab21bf1e61",
+            "00b4fbbd21491f15"
         ],
         "x": 105,
         "y": 1560,
         "wires": [
             [
-                "3fd8e46a58e9c2ec"
+                "7b3a63826aba0747"
             ]
         ]
     },
     {
-        "id": "d72f01c3c1e0855e",
+        "id": "d99cac5e7cf011f8",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Wokwi",
         "info": "",
         "x": 130,
@@ -1393,9 +1392,9 @@
         "wires": []
     },
     {
-        "id": "3b4c16f6908e819a",
+        "id": "03f69a3a54bb7fc3",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Receive incoming string from Wokwi",
         "info": "",
         "x": 310,
@@ -1403,9 +1402,9 @@
         "wires": []
     },
     {
-        "id": "850e32e3596e70d6",
+        "id": "32f186801c95175d",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Send data to Wokwi",
         "info": "",
         "x": 250,
@@ -1413,9 +1412,9 @@
         "wires": []
     },
     {
-        "id": "aaa9e684f88a8d67",
+        "id": "7d9afba0e502785b",
         "type": "inject",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Receiving",
         "props": [
             {
@@ -1436,9 +1435,9 @@
         ]
     },
     {
-        "id": "9f310f3d84d45fd5",
+        "id": "30471c9a1d1d7fe7",
         "type": "inject",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Sending",
         "props": [
             {
@@ -1460,14 +1459,14 @@
         "y": 2060,
         "wires": [
             [
-                "20627751638a618e"
+                "485d89d8e9453b99"
             ]
         ]
     },
     {
-        "id": "5c41eb7df551057e",
+        "id": "675672d47a966823",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Sender",
         "func": "msg.payload = flow.get(\"send\");\nreturn msg;",
         "outputs": 1,
@@ -1479,14 +1478,14 @@
         "y": 2020,
         "wires": [
             [
-                "38a3bb4a3d5c324c"
+                "b4ef3edb7f845d0e"
             ]
         ]
     },
     {
-        "id": "bcd8b3bd2d1769f8",
+        "id": "d04d2c1c31f8029c",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Receiver",
         "func": "// Format: [Status:1][Moisture:4][Threshold:4]\n\nflow.set(\"receive\", msg.payload);\n\nmsg.payload = msg.payload;\n\nreturn msg;",
         "outputs": 1,
@@ -1498,14 +1497,14 @@
         "y": 1860,
         "wires": [
             [
-                "83b4566a2a9f686c"
+                "b20611d5e8386238"
             ]
         ]
     },
     {
-        "id": "01b633debeef5f83",
+        "id": "671a9357ba9ab4ae",
         "type": "debug",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1520,9 +1519,9 @@
         "wires": []
     },
     {
-        "id": "2b01c17a0478ab40",
+        "id": "f50c9c8f5e759ead",
         "type": "debug",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1537,9 +1536,9 @@
         "wires": []
     },
     {
-        "id": "20627751638a618e",
+        "id": "485d89d8e9453b99",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Data Encoder",
         "func": "// Format: [Year:2][Month:2][Day:2][Hour:2][Min:2][Sec:2][Status:1][Moisture:4][Threshold:4][Forecast:6][Latitude:4][Longtitude:4]                \n\nconst isoStr = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Singapore' });\n\nlet encoded = \"\";\n\nlet time = isoStr[8] + isoStr[9] +      // year\n            isoStr[3] + isoStr[4] +     // month\n            isoStr[0] + isoStr[1] +     // day\n            isoStr[12] + isoStr[13] +   // hour\n            isoStr[15] + isoStr[16] +   // min\n            isoStr[18] + isoStr[19];    // sec\n\nlet status = flow.get(\"status\");\n\nlet moistVal = flow.get(\"moisture\");\nlet moist = \"\";\nif (moistVal < 1000) {\n    moist += \"0\";\n    if (moistVal < 100) {\n        moist += \"0\";\n        if (moistVal < 10) {\n            moist += \"0\";\n        }\n    }\n}\nmoist += moistVal;\n\nlet thresVal = flow.get(\"threshold\");\nlet threshold = \"\";\nif (thresVal < 1000) {\n    threshold += \"0\";\n    if (thresVal < 100) {\n        threshold += \"0\";\n        if (thresVal < 10) {\n            threshold += \"0\";\n        }\n    }\n}\nthreshold += thresVal;\n\nlet forecast = flow.get(\"forecast\");\n\nlet lat_f = parseFloat(flow.get(\"lat\"));\nlet lat = \"\";\nif (lat_f < 100) {\n    lat += \"0\";\n}\nlat += lat_f.toString();\nlat = lat.substring(0, 3) + lat.substring(4, 5);\n\nlet lon_f = parseFloat(flow.get(\"lon\"));\nlet lon = \"\";\nif (lon_f < 100) {\n    lon += \"0\";\n    if (lat_f < 10) {\n        lat += \"0\";\n    }\n}\nlon += lon_f.toString();\nlon = lon.substring(0, 3) + lon.substring(4, 5);\n\nlet message = time + status + moist + threshold + forecast + lat + lon;\n\nflow.set(\"send\", message);\n\nreturn msg;",
         "outputs": 1,
@@ -1551,14 +1550,14 @@
         "y": 2040,
         "wires": [
             [
-                "3d289053d2ebb9d6"
+                "0418f6c82ec82d21"
             ]
         ]
     },
     {
-        "id": "83b4566a2a9f686c",
+        "id": "b20611d5e8386238",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Data Decoder",
         "func": "data = flow.get(\"receive\");\n\nflow.set(\"status\", parseInt(data[0]));\n\nlet moist = \"\";\nfor (let i = 1; i < (1 + 4); i++) {\n    moist += data[i];\n}\nflow.set(\"moisture\", parseInt(moist));\n\nmsg.payload = data;\n\nreturn msg;",
         "outputs": 1,
@@ -1570,15 +1569,15 @@
         "y": 1860,
         "wires": [
             [
-                "2b01c17a0478ab40",
-                "f12fcc7d0294441d"
+                "f50c9c8f5e759ead",
+                "58a1c9da4640fa76"
             ]
         ]
     },
     {
-        "id": "8cc8b97f6ca1014a",
+        "id": "cc9867daa04a093d",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Formatter",
         "func": "let raw = flow.get(\"send\");\nlet fmt = \"\";\n\nfmt += \"Year: \" + raw[0] + raw[1] + \" || \";\nfmt += \"Month: \" + raw[2] + raw[3] + \" || \";\nfmt += \"Day: \" + raw[4] + raw[5] + \" || \";\nfmt += \"Hour: \" + raw[6] + raw[7] + \" || \";\nfmt += \"Minute: \" + raw[8] + raw[9] + \" || \";\nfmt += \"Second: \" + raw[10] + raw[11] + \" || \";\nfmt += \"Status: \" + raw[12] + \" || \";\nfmt += \"Moisture: \" + raw[13] + raw[14] + raw[15] + raw[16] + \" || \";\nfmt += \"Threshold: \" + raw[17] + raw[18] + raw[19] + raw[20] + \" || \";\nfmt += \"Forecast: \" + raw[21] + raw[22] + raw[23] + raw[24] + raw[25] + raw[26] + \" || \";\nfmt += \"Latitude: \" + raw[27] + raw[28] + raw[29] + \".\" + raw[30] + \" || \";\nfmt += \"Longtitude: \" + raw[31] + raw[32] + raw[33] + \".\" + raw[34];\n\nmsg.payload = raw + \" || \" + fmt;\n\nreturn msg;",
         "outputs": 1,
@@ -1590,14 +1589,14 @@
         "y": 2060,
         "wires": [
             [
-                "01b633debeef5f83"
+                "671a9357ba9ab4ae"
             ]
         ]
     },
     {
-        "id": "8025556ebff11bb2",
+        "id": "031401fc1429bd02",
         "type": "rbe",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Prevent Duplication",
         "func": "rbe",
         "gap": "",
@@ -1610,15 +1609,15 @@
         "y": 2040,
         "wires": [
             [
-                "5c41eb7df551057e",
-                "8cc8b97f6ca1014a"
+                "675672d47a966823",
+                "cc9867daa04a093d"
             ]
         ]
     },
     {
-        "id": "3d289053d2ebb9d6",
+        "id": "0418f6c82ec82d21",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Exclude Timestamp",
         "func": "msg.payload = flow.get(\"send\").slice(12);\n\nreturn msg;",
         "outputs": 1,
@@ -1630,14 +1629,14 @@
         "y": 2040,
         "wires": [
             [
-                "8025556ebff11bb2"
+                "031401fc1429bd02"
             ]
         ]
     },
     {
-        "id": "f82b84f71f1ca77f",
+        "id": "3c16de90bad6d75f",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "About http message format...",
         "info": "Note: [{Name-of-property}:{Number-of-character}]\n\nThe string receive from ESP (composed by Arduino) will follow the format:\n[Status:1][Moisture:4][Threshold:4]\n\nThe string to be sent to ESP and to save on cloud service:\n[Year:2][Month:2][Day:2][Hour:2][Min:2][Sec:2][Status:1][Moisture:4][Threshold:4][Forecast:6][Latitude:4][Longtitude:4]",
         "x": 300,
@@ -1645,14 +1644,14 @@
         "wires": []
     },
     {
-        "id": "9bbf931e1d94dcb8",
+        "id": "c0900b1d015e9a53",
         "type": "mqtt in",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
         "topic": "030927",
         "qos": "2",
         "datatype": "utf8",
-        "broker": "8a432d6834276554",
+        "broker": "f2a3d71af438e72a",
         "nl": false,
         "rap": true,
         "rh": 0,
@@ -1661,14 +1660,14 @@
         "y": 1900,
         "wires": [
             [
-                "132bfc7a186ed370"
+                "d5cb8570dcc5db66"
             ]
         ]
     },
     {
-        "id": "38a3bb4a3d5c324c",
+        "id": "b4ef3edb7f845d0e",
         "type": "mqtt out",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
         "topic": "030927-cb",
         "qos": "2",
@@ -1678,15 +1677,15 @@
         "userProps": "",
         "correl": "",
         "expiry": "",
-        "broker": "8a432d6834276554",
+        "broker": "f2a3d71af438e72a",
         "x": 1290,
         "y": 2020,
         "wires": []
     },
     {
-        "id": "90cc863e573f42a5",
+        "id": "65e6439cd8de2a03",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "TODO: Receive and send flow.send to cloud",
         "info": "",
         "x": 250,
@@ -1694,9 +1693,9 @@
         "wires": []
     },
     {
-        "id": "f93407ada6411166",
+        "id": "e47fae8aff72361a",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Cloud Database",
         "info": "",
         "x": 160,
@@ -1704,9 +1703,9 @@
         "wires": []
     },
     {
-        "id": "b69d3340a773ca97",
+        "id": "e62d08d2ce4e48be",
         "type": "rbe",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Prevent Duplication",
         "func": "rbe",
         "gap": "",
@@ -1719,15 +1718,15 @@
         "y": 1560,
         "wires": [
             [
-                "38ae7033f6c66b23",
-                "1e679569640d0837"
+                "255d3c19ea79c979",
+                "26d3894e1875aeaa"
             ]
         ]
     },
     {
-        "id": "bf57ec86ea83fe31",
+        "id": "6f2d39f8652ad49e",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Moisture noti",
         "func": "moisture = parseInt(flow.get(\"moisture\"));\nthreshold = parseInt(flow.get(\"threshold\"));\nnotiMsg = \"\";\n\nif (moisture < (threshold - 200)) {\n    notiMsg = \"Current soil moisture is too dry, currently at \" + moisture + \".\";\n}\n\nelse if (moisture > (threshold + 200)) {\n    notiMsg = \"Current soil is too wet, currently at \" + moisture + \".\";\n}\n\nelse return;\n\nflow.set(\"noti\", notiMsg);\n\nreturn msg;",
         "outputs": 1,
@@ -1739,43 +1738,43 @@
         "y": 1340,
         "wires": [
             [
-                "dda05c9a9cb48137"
+                "00b4fbbd21491f15"
             ]
         ]
     },
     {
-        "id": "dda05c9a9cb48137",
+        "id": "00b4fbbd21491f15",
         "type": "link out",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Send Moisture Noti",
         "mode": "link",
         "links": [
-            "40cd9e5892a89f88"
+            "344efd2cceb3164e"
         ],
         "x": 625,
         "y": 1340,
         "wires": []
     },
     {
-        "id": "81dd2bd8ac087ce5",
+        "id": "79f5f84d95afcd79",
         "type": "link in",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Trigger Status Msg",
         "links": [
-            "f12fcc7d0294441d"
+            "58a1c9da4640fa76"
         ],
         "x": 425,
         "y": 840,
         "wires": [
             [
-                "4b9cb24c36f66cb5"
+                "ae6fb3d58f585bd0"
             ]
         ]
     },
     {
-        "id": "1e679569640d0837",
+        "id": "26d3894e1875aeaa",
         "type": "debug",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "",
         "active": true,
         "tosidebar": true,
@@ -1790,9 +1789,9 @@
         "wires": []
     },
     {
-        "id": "8b43e7e8f45acad4",
+        "id": "9ee20aa6958ee53e",
         "type": "inject",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Auto update UI",
         "props": [],
         "repeat": "2",
@@ -1804,28 +1803,28 @@
         "y": 1160,
         "wires": [
             [
-                "519c9fc0e798a0df"
+                "8ac77ac89e32a8ed"
             ]
         ]
     },
     {
-        "id": "519c9fc0e798a0df",
+        "id": "8ac77ac89e32a8ed",
         "type": "link out",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Update UI",
         "mode": "link",
         "links": [
-            "1417bd86ac1957a9",
-            "ed74a686ab0a424b"
+            "223f6ae9b4ee63b4",
+            "a85ed09e28cfedf2"
         ],
         "x": 455,
         "y": 1160,
         "wires": []
     },
     {
-        "id": "3fd8e46a58e9c2ec",
+        "id": "7b3a63826aba0747",
         "type": "function",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Get noti message",
         "func": "msg.payload = flow.get(\"noti\");\nreturn msg;",
         "outputs": 1,
@@ -1837,14 +1836,14 @@
         "y": 1560,
         "wires": [
             [
-                "b69d3340a773ca97"
+                "e62d08d2ce4e48be"
             ]
         ]
     },
     {
-        "id": "6fbfa3245f11d986",
+        "id": "098a6f631ad58218",
         "type": "comment",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "IFTTT Notification",
         "info": "",
         "x": 170,
@@ -1852,9 +1851,9 @@
         "wires": []
     },
     {
-        "id": "1d78250f035d2bda",
+        "id": "8dd2a780ff7d71d4",
         "type": "rbe",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Prevent Duplication",
         "func": "rbe",
         "gap": "",
@@ -1867,14 +1866,14 @@
         "y": 680,
         "wires": [
             [
-                "c5168e962d08709e"
+                "e05ca8deb17783f1"
             ]
         ]
     },
     {
-        "id": "0cc43809fd6bb44e",
+        "id": "0e41f35d11880116",
         "type": "inject",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Receiving",
         "props": [
             {
@@ -1895,9 +1894,9 @@
         ]
     },
     {
-        "id": "7d51a5ec3c6ed5d9",
+        "id": "89c77643dc5b0afa",
         "type": "inject",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Default values",
         "props": [
             {
@@ -1920,14 +1919,14 @@
         "y": 240,
         "wires": [
             [
-                "c95d2579f0880f73"
+                "c48d7a20e16fc81b"
             ]
         ]
     },
     {
-        "id": "132bfc7a186ed370",
+        "id": "d5cb8570dcc5db66",
         "type": "rbe",
-        "z": "430f1f83b71bdc48",
+        "z": "49695c7bb779ab29",
         "name": "Prevent Duplication",
         "func": "rbe",
         "gap": "",
@@ -1940,27 +1939,615 @@
         "y": 1860,
         "wires": [
             [
-                "bcd8b3bd2d1769f8"
+                "d04d2c1c31f8029c"
             ]
         ]
     },
     {
-        "id": "70fb931.dfc146c",
+        "id": "e461ffdbd4d7cbdf",
+        "type": "inject",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 2280,
+        "wires": [
+            [
+                "f2dcbc9eed06dd55"
+            ]
+        ]
+    },
+    {
+        "id": "601a06cc8c50cb79",
+        "type": "http request",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key=IJ5IY9OQRZ2KXTWM&field1={{get.moisture}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 670,
+        "y": 2280,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "f2dcbc9eed06dd55",
+        "type": "function",
+        "z": "49695c7bb779ab29",
+        "name": "Write moisture to cloud",
+        "func": "msg.payload = flow.get(\"Moisture\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 2280,
+        "wires": [
+            [
+                "601a06cc8c50cb79"
+            ]
+        ]
+    },
+    {
+        "id": "b4ded3558df4590e",
+        "type": "inject",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 2360,
+        "wires": [
+            [
+                "e91a56af77d9dae1"
+            ]
+        ]
+    },
+    {
+        "id": "e91a56af77d9dae1",
+        "type": "function",
+        "z": "49695c7bb779ab29",
+        "name": "Write status to cloud",
+        "func": "msg.payload = flow.get (\"status\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 2360,
+        "wires": [
+            [
+                "5e46256946532466"
+            ]
+        ]
+    },
+    {
+        "id": "5e46256946532466",
+        "type": "http request",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key=IJ5IY9OQRZ2KXTWM&field2={{get.status}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 710,
+        "y": 2360,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "d7b5de5c7567e0f4",
+        "type": "inject",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 2460,
+        "wires": [
+            [
+                "db7cece9269c6227"
+            ]
+        ]
+    },
+    {
+        "id": "db7cece9269c6227",
+        "type": "function",
+        "z": "49695c7bb779ab29",
+        "name": "Write threshold to cloud",
+        "func": "msg.payload = flow.get (\"threshold\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 510,
+        "y": 2440,
+        "wires": [
+            [
+                "074a989c5a8fec04"
+            ]
+        ]
+    },
+    {
+        "id": "074a989c5a8fec04",
+        "type": "http request",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/update?api_key=IJ5IY9OQRZ2KXTWM&field3={{get.threshold}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 770,
+        "y": 2440,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "fde79bcbc117ef79",
+        "type": "inject",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 250,
+        "y": 2540,
+        "wires": [
+            [
+                "7fa01ea5e7678310"
+            ]
+        ]
+    },
+    {
+        "id": "7fa01ea5e7678310",
+        "type": "function",
+        "z": "49695c7bb779ab29",
+        "name": "Read moisture from cloud",
+        "func": "msg.payload = flow.get(\"moisture\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 470,
+        "y": 2540,
+        "wires": [
+            [
+                "fa0e05d25e601dd7"
+            ]
+        ]
+    },
+    {
+        "id": "fa0e05d25e601dd7",
+        "type": "http request",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/channels/1809875/fields/1.json?api_key=TDJYBV0PT8S9943Q&results={{msg.payload}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 710,
+        "y": 2540,
+        "wires": [
+            [
+                "70a3f2dc7d2e6c64",
+                "2694a59884132353"
+            ]
+        ]
+    },
+    {
+        "id": "2694a59884132353",
+        "type": "debug",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 2620,
+        "wires": []
+    },
+    {
+        "id": "70a3f2dc7d2e6c64",
+        "type": "json",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 870,
+        "y": 2540,
+        "wires": [
+            [
+                "c2f7151fea2d56f7"
+            ]
+        ]
+    },
+    {
+        "id": "bb1b043677615d2b",
+        "type": "inject",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 2720,
+        "wires": [
+            [
+                "1a48c4b37baa85f2"
+            ]
+        ]
+    },
+    {
+        "id": "1a48c4b37baa85f2",
+        "type": "function",
+        "z": "49695c7bb779ab29",
+        "name": "Read status from cloud",
+        "func": "msg.payload = flow.get (\"status\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 450,
+        "y": 2720,
+        "wires": [
+            [
+                "f56aac9c4fa6d116"
+            ]
+        ]
+    },
+    {
+        "id": "640478360cefe6e5",
+        "type": "inject",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 190,
+        "y": 2820,
+        "wires": [
+            [
+                "d66c430cae884280"
+            ]
+        ]
+    },
+    {
+        "id": "d66c430cae884280",
+        "type": "function",
+        "z": "49695c7bb779ab29",
+        "name": "Read threshold from cloud",
+        "func": "msg.payload = flow.get(\"threshold\");\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 480,
+        "y": 2820,
+        "wires": [
+            [
+                "35d1de7462ab7a62"
+            ]
+        ]
+    },
+    {
+        "id": "f56aac9c4fa6d116",
+        "type": "http request",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/channels/1809875/fields/2.json?api_key=TDJYBV0PT8S9943Q&results={{msg.payload}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 750,
+        "y": 2720,
+        "wires": [
+            [
+                "77b307a2a250a233",
+                "4d1044df0e90bc25"
+            ]
+        ]
+    },
+    {
+        "id": "922a0aef644591ec",
+        "type": "link in",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "links": [],
+        "x": 215,
+        "y": 2320,
+        "wires": [
+            [
+                "e91a56af77d9dae1"
+            ]
+        ]
+    },
+    {
+        "id": "9558e2c74c3218f6",
+        "type": "link in",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "links": [],
+        "x": 225,
+        "y": 2240,
+        "wires": [
+            [
+                "f2dcbc9eed06dd55"
+            ]
+        ]
+    },
+    {
+        "id": "35d1de7462ab7a62",
+        "type": "http request",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "https://api.thingspeak.com/channels/1809875/fields/3.json?api_key=TDJYBV0PT8S9943Q&results={{msg.payload}}",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "authType": "",
+        "senderr": false,
+        "x": 750,
+        "y": 2820,
+        "wires": [
+            [
+                "a1a69580bf697430",
+                "5d210199277c628b"
+            ]
+        ]
+    },
+    {
+        "id": "a1a69580bf697430",
+        "type": "debug",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 930,
+        "y": 2900,
+        "wires": []
+    },
+    {
+        "id": "77b307a2a250a233",
+        "type": "debug",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 910,
+        "y": 2760,
+        "wires": []
+    },
+    {
+        "id": "4d1044df0e90bc25",
+        "type": "json",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 910,
+        "y": 2700,
+        "wires": [
+            [
+                "b28487f61b539eb6"
+            ]
+        ]
+    },
+    {
+        "id": "5d210199277c628b",
+        "type": "json",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 950,
+        "y": 2840,
+        "wires": [
+            [
+                "3d742ad84fcccf23"
+            ]
+        ]
+    },
+    {
+        "id": "e7ba646f366f6359",
+        "type": "link in",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "links": [],
+        "x": 245,
+        "y": 2400,
+        "wires": [
+            [
+                "db7cece9269c6227"
+            ]
+        ]
+    },
+    {
+        "id": "c2f7151fea2d56f7",
+        "type": "link out",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "mode": "link",
+        "links": [],
+        "x": 975,
+        "y": 2540,
+        "wires": []
+    },
+    {
+        "id": "b28487f61b539eb6",
+        "type": "link out",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "mode": "link",
+        "links": [],
+        "x": 1055,
+        "y": 2700,
+        "wires": []
+    },
+    {
+        "id": "3d742ad84fcccf23",
+        "type": "link out",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "mode": "link",
+        "links": [],
+        "x": 1085,
+        "y": 2840,
+        "wires": []
+    },
+    {
+        "id": "08578dec6b2cb5e0",
         "type": "ui_group",
         "name": "Weather",
-        "tab": "4bb34f67.69a87",
-        "order": 4,
+        "tab": "ab19f1bc4352d465",
+        "order": 2,
         "disp": false,
         "width": "10",
         "collapse": false,
         "className": ""
     },
     {
-        "id": "f2c9d6d8312163b5",
+        "id": "82fd80b28a1b4b5a",
         "type": "ui_group",
         "name": "Data",
-        "tab": "4bb34f67.69a87",
-        "order": 3,
+        "tab": "ab19f1bc4352d465",
+        "order": 1,
         "disp": true,
         "width": "6",
         "collapse": false,
@@ -1970,15 +2557,15 @@
         "id": "e1ed05e8d05a9e01",
         "type": "ui_group",
         "name": "Humidity Threshold",
-        "tab": "4bb34f67.69a87",
-        "order": 5,
+        "tab": "ab19f1bc4352d465",
+        "order": 3,
         "disp": true,
         "width": "6",
         "collapse": false,
         "className": ""
     },
     {
-        "id": "8a432d6834276554",
+        "id": "f2a3d71af438e72a",
         "type": "mqtt-broker",
         "name": "",
         "broker": "broker.hivemq.com",
@@ -2004,11 +2591,10 @@
         "sessionExpiry": ""
     },
     {
-        "id": "4bb34f67.69a87",
+        "id": "ab19f1bc4352d465",
         "type": "ui_tab",
-        "name": "CapstoneProject",
-        "icon": "fa-thermometer-half",
-        "order": 3,
+        "name": "Capstone Project",
+        "icon": "dashboard",
         "disabled": false,
         "hidden": false
     }
