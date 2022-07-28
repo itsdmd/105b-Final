@@ -1973,31 +1973,11 @@
         ]
     },
     {
-        "id": "601a06cc8c50cb79",
-        "type": "http request",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.thingspeak.com/update?api_key=IJ5IY9OQRZ2KXTWM&field1={{get.moisture}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "senderr": false,
-        "x": 670,
-        "y": 2280,
-        "wires": [
-            []
-        ]
-    },
-    {
         "id": "f2dcbc9eed06dd55",
         "type": "function",
         "z": "49695c7bb779ab29",
         "name": "Write moisture to cloud",
-        "func": "msg.payload = flow.get(\"Moisture\");\nreturn msg;",
+        "func": "msg.payload = flow.get(\"moisture\");\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -2007,7 +1987,7 @@
         "y": 2280,
         "wires": [
             [
-                "601a06cc8c50cb79"
+                "36c7b56a3abd469c"
             ]
         ]
     },
@@ -2055,28 +2035,8 @@
         "y": 2360,
         "wires": [
             [
-                "5e46256946532466"
+                "e2982ef73cd679d5"
             ]
-        ]
-    },
-    {
-        "id": "5e46256946532466",
-        "type": "http request",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.thingspeak.com/update?api_key=IJ5IY9OQRZ2KXTWM&field2={{get.status}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "senderr": false,
-        "x": 710,
-        "y": 2360,
-        "wires": [
-            []
         ]
     },
     {
@@ -2123,273 +2083,50 @@
         "y": 2440,
         "wires": [
             [
-                "074a989c5a8fec04"
+                "3bda6807a1cd65a2"
             ]
         ]
     },
     {
-        "id": "074a989c5a8fec04",
-        "type": "http request",
+        "id": "36c7b56a3abd469c",
+        "type": "ThingspeakSendSimple",
         "z": "49695c7bb779ab29",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.thingspeak.com/update?api_key=IJ5IY9OQRZ2KXTWM&field3={{get.threshold}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "senderr": false,
+        "name": "Send to thingspeak.com",
+        "writekey": "IJ5IY9OQRZ2KXTWM",
+        "fieldid": "1",
         "x": 770,
-        "y": 2440,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "fde79bcbc117ef79",
-        "type": "inject",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 250,
-        "y": 2540,
-        "wires": [
-            [
-                "7fa01ea5e7678310"
-            ]
-        ]
-    },
-    {
-        "id": "7fa01ea5e7678310",
-        "type": "function",
-        "z": "49695c7bb779ab29",
-        "name": "Read moisture from cloud",
-        "func": "msg.payload = flow.get(\"moisture\");\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 470,
-        "y": 2540,
-        "wires": [
-            [
-                "fa0e05d25e601dd7"
-            ]
-        ]
-    },
-    {
-        "id": "fa0e05d25e601dd7",
-        "type": "http request",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.thingspeak.com/channels/1809875/fields/1.json?api_key=TDJYBV0PT8S9943Q&results={{msg.payload}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "senderr": false,
-        "x": 710,
-        "y": 2540,
-        "wires": [
-            [
-                "70a3f2dc7d2e6c64",
-                "2694a59884132353"
-            ]
-        ]
-    },
-    {
-        "id": "2694a59884132353",
-        "type": "debug",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 890,
-        "y": 2620,
+        "y": 2280,
         "wires": []
     },
     {
-        "id": "70a3f2dc7d2e6c64",
-        "type": "json",
+        "id": "e2982ef73cd679d5",
+        "type": "ThingspeakSendSimple",
         "z": "49695c7bb779ab29",
         "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 870,
-        "y": 2540,
-        "wires": [
-            [
-                "c2f7151fea2d56f7"
-            ]
-        ]
+        "writekey": "IJ5IY9OQRZ2KXTWM",
+        "fieldid": "2",
+        "x": 810,
+        "y": 2360,
+        "wires": []
     },
     {
-        "id": "bb1b043677615d2b",
-        "type": "inject",
+        "id": "3bda6807a1cd65a2",
+        "type": "ThingspeakSendSimple",
         "z": "49695c7bb779ab29",
         "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 170,
-        "y": 2720,
-        "wires": [
-            [
-                "1a48c4b37baa85f2"
-            ]
-        ]
+        "writekey": "IJ5IY9OQRZ2KXTWM",
+        "fieldid": "3",
+        "x": 810,
+        "y": 2440,
+        "wires": []
     },
     {
-        "id": "1a48c4b37baa85f2",
-        "type": "function",
-        "z": "49695c7bb779ab29",
-        "name": "Read status from cloud",
-        "func": "msg.payload = flow.get (\"status\");\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 450,
-        "y": 2720,
-        "wires": [
-            [
-                "f56aac9c4fa6d116"
-            ]
-        ]
-    },
-    {
-        "id": "640478360cefe6e5",
-        "type": "inject",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 190,
-        "y": 2820,
-        "wires": [
-            [
-                "d66c430cae884280"
-            ]
-        ]
-    },
-    {
-        "id": "d66c430cae884280",
-        "type": "function",
-        "z": "49695c7bb779ab29",
-        "name": "Read threshold from cloud",
-        "func": "msg.payload = flow.get(\"threshold\");\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 480,
-        "y": 2820,
-        "wires": [
-            [
-                "35d1de7462ab7a62"
-            ]
-        ]
-    },
-    {
-        "id": "f56aac9c4fa6d116",
-        "type": "http request",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.thingspeak.com/channels/1809875/fields/2.json?api_key=TDJYBV0PT8S9943Q&results={{msg.payload}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "senderr": false,
-        "x": 750,
-        "y": 2720,
-        "wires": [
-            [
-                "77b307a2a250a233",
-                "4d1044df0e90bc25"
-            ]
-        ]
-    },
-    {
-        "id": "922a0aef644591ec",
+        "id": "2c8b34c7447fb219",
         "type": "link in",
         "z": "49695c7bb779ab29",
         "name": "",
         "links": [],
-        "x": 215,
-        "y": 2320,
-        "wires": [
-            [
-                "e91a56af77d9dae1"
-            ]
-        ]
-    },
-    {
-        "id": "9558e2c74c3218f6",
-        "type": "link in",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "links": [],
-        "x": 225,
+        "x": 255,
         "y": 2240,
         "wires": [
             [
@@ -2398,138 +2135,32 @@
         ]
     },
     {
-        "id": "35d1de7462ab7a62",
-        "type": "http request",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "method": "GET",
-        "ret": "txt",
-        "paytoqs": "ignore",
-        "url": "https://api.thingspeak.com/channels/1809875/fields/3.json?api_key=TDJYBV0PT8S9943Q&results={{msg.payload}}",
-        "tls": "",
-        "persist": false,
-        "proxy": "",
-        "authType": "",
-        "senderr": false,
-        "x": 750,
-        "y": 2820,
-        "wires": [
-            [
-                "a1a69580bf697430",
-                "5d210199277c628b"
-            ]
-        ]
-    },
-    {
-        "id": "a1a69580bf697430",
-        "type": "debug",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 930,
-        "y": 2900,
-        "wires": []
-    },
-    {
-        "id": "77b307a2a250a233",
-        "type": "debug",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "false",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 910,
-        "y": 2760,
-        "wires": []
-    },
-    {
-        "id": "4d1044df0e90bc25",
-        "type": "json",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 910,
-        "y": 2700,
-        "wires": [
-            [
-                "b28487f61b539eb6"
-            ]
-        ]
-    },
-    {
-        "id": "5d210199277c628b",
-        "type": "json",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "property": "payload",
-        "action": "",
-        "pretty": false,
-        "x": 950,
-        "y": 2840,
-        "wires": [
-            [
-                "3d742ad84fcccf23"
-            ]
-        ]
-    },
-    {
-        "id": "e7ba646f366f6359",
+        "id": "7fa3b94e43859bc2",
         "type": "link in",
         "z": "49695c7bb779ab29",
         "name": "",
         "links": [],
-        "x": 245,
-        "y": 2400,
+        "x": 255,
+        "y": 2320,
+        "wires": [
+            [
+                "e91a56af77d9dae1"
+            ]
+        ]
+    },
+    {
+        "id": "e3aed7622306e9a9",
+        "type": "link in",
+        "z": "49695c7bb779ab29",
+        "name": "",
+        "links": [],
+        "x": 235,
+        "y": 2420,
         "wires": [
             [
                 "db7cece9269c6227"
             ]
         ]
-    },
-    {
-        "id": "c2f7151fea2d56f7",
-        "type": "link out",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "mode": "link",
-        "links": [],
-        "x": 975,
-        "y": 2540,
-        "wires": []
-    },
-    {
-        "id": "b28487f61b539eb6",
-        "type": "link out",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "mode": "link",
-        "links": [],
-        "x": 1055,
-        "y": 2700,
-        "wires": []
-    },
-    {
-        "id": "3d742ad84fcccf23",
-        "type": "link out",
-        "z": "49695c7bb779ab29",
-        "name": "",
-        "mode": "link",
-        "links": [],
-        "x": 1085,
-        "y": 2840,
-        "wires": []
     },
     {
         "id": "08578dec6b2cb5e0",
