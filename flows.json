@@ -627,7 +627,7 @@
         "type": "function",
         "z": "430f1f83b71bdc48",
         "name": "Set threshold",
-        "func": "flow.set(\"threshold\", msg.payload);\n\nreturn msg;",
+        "func": "value = msg.payload;\n\nif (value > 1000) value = 1000\n\nflow.set(\"threshold\", value);\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1021,7 +1021,8 @@
             "1417bd86ac1957a9",
             "81dd2bd8ac087ce5",
             "ed74a686ab0a424b",
-            "f38941daee0d6ed4"
+            "f38941daee0d6ed4",
+            "cf789d1ca4671fee"
         ],
         "x": 965,
         "y": 1880,
@@ -1542,7 +1543,7 @@
         "type": "function",
         "z": "430f1f83b71bdc48",
         "name": "Data Encoder",
-        "func": "// Format: [Year:2][Month:2][Day:2][Hour:2][Min:2][Sec:2][Status:1][Moisture:4][Threshold:4][Forecast:6][Latitude:4][Longtitude:4]                \n\nconst isoStr = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Singapore' });\n\nlet encoded = \"\";\n\nlet time = isoStr[8] + isoStr[9] +      // year\n            isoStr[3] + isoStr[4] +     // month\n            isoStr[0] + isoStr[1] +     // day\n            isoStr[12] + isoStr[13] +   // hour\n            isoStr[15] + isoStr[16] +   // min\n            isoStr[18] + isoStr[19];    // sec\n\nlet status = flow.get(\"status\");\n\nlet moistVal = flow.get(\"moisture\");\nlet moist = \"\";\nif (moistVal < 1000) {\n    moist += \"0\";\n    if (moistVal < 100) {\n        moist += \"0\";\n        if (moistVal < 10) {\n            moist += \"0\";\n        }\n    }\n}\nmoist += moistVal;\n\nlet thresVal = flow.get(\"threshold\");\nlet threshold = \"\";\nif (thresVal < 1000) {\n    threshold += \"0\";\n    if (thresVal < 100) {\n        threshold += \"0\";\n        if (thresVal < 10) {\n            threshold += \"0\";\n        }\n    }\n}\nthreshold += thresVal;\n\nlet forecast = flow.get(\"forecast\");\n\nlet lat_f = parseFloat(flow.get(\"lat\"));\nlet lat = \"\";\nif (lat_f < 100) {\n    lat += \"0\";\n}\nlat += lat_f.toString();\nlat = lat.substring(0, 3) + lat.substring(4, 5);\n\nlet lon_f = parseFloat(flow.get(\"lon\"));\nlet lon = \"\";\nif (lon_f < 100) {\n    lon += \"0\";\n    if (lat_f < 10) {\n        lat += \"0\";\n    }\n}\nlon += lon_f.toString();\nlon = lon.substring(0, 3) + lon.substring(4, 5);\n\nlet message = time + status + moist + threshold + forecast + lat + lon;\n\nflow.set(\"send\", message);\n\nreturn msg;",
+        "func": "// Format: [Year:2][Month:2][Day:2][Hour:2][Min:2][Sec:2][Status:1][Moisture:4][Threshold:4][Forecast:6][Latitude:4][Longtitude:4]                \n\nconst isoStr = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Singapore' });\n\nlet encoded = \"\";\n\nlet time = isoStr[8] + isoStr[9] +      // year\n            isoStr[3] + isoStr[4] +     // month\n            isoStr[0] + isoStr[1] +     // day\n            isoStr[12] + isoStr[13] +   // hour\n            isoStr[15] + isoStr[16] +   // min\n            isoStr[18] + isoStr[19];    // sec\n\nlet status = flow.get(\"status\");\n\nlet moistVal = parseInt(flow.get(\"moisture\"));\nlet moist = \"\";\nif (moistVal < 1000) {\n    moist += \"0\";\n    if (moistVal < 100) {\n        moist += \"0\";\n        if (moistVal < 10) {\n            moist += \"0\";\n        }\n    }\n}\nmoist += moistVal;\n\nlet thresVal = parseInt(flow.get(\"threshold\"));\nlet threshold = \"\";\nif (thresVal > 1000) thresVal = 1000;\nif (thresVal < 1000) {\n    threshold += \"0\";\n    if (thresVal < 100) {\n        threshold += \"0\";\n        if (thresVal < 10) {\n            threshold += \"0\";\n        }\n    }\n}\nthreshold += thresVal;\n\nlet forecast = flow.get(\"forecast\");\n\nlet lat_f = parseFloat(flow.get(\"lat\"));\nlet lat = \"\";\nif (lat_f < 100) {\n    lat += \"0\";\n}\nlat += lat_f.toString();\nlat = lat.substring(0, 3) + lat.substring(4, 5);\n\nlet lon_f = parseFloat(flow.get(\"lon\"));\nlet lon = \"\";\nif (lon_f < 100) {\n    lon += \"0\";\n    if (lat_f < 10) {\n        lat += \"0\";\n    }\n}\nlon += lon_f.toString();\nlon = lon.substring(0, 3) + lon.substring(4, 5);\n\nlet message = time + status + moist + threshold + forecast + lat + lon;\n\nflow.set(\"send\", message);\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1873,11 +1874,11 @@
         "repeat": "",
         "crontab": "",
         "once": true,
-        "onceDelay": "0",
+        "onceDelay": "1",
         "topic": "",
-        "payload": "006270567",
+        "payload": "005000500",
         "payloadType": "str",
-        "x": 220,
+        "x": 240,
         "y": 1860,
         "wires": [
             [
@@ -2080,7 +2081,9 @@
         "type": "link in",
         "z": "430f1f83b71bdc48",
         "name": "Set threshold",
-        "links": [],
+        "links": [
+            "f12fcc7d0294441d"
+        ],
         "x": 185,
         "y": 1040,
         "wires": [
