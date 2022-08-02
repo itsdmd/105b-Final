@@ -465,9 +465,9 @@
         "dot": false,
         "ymin": "0",
         "ymax": "1000",
-        "removeOlder": "10",
+        "removeOlder": "1",
         "removeOlderPoints": "",
-        "removeOlderUnit": "1",
+        "removeOlderUnit": "60",
         "cutout": 0,
         "useOneColor": false,
         "useUTC": true,
@@ -512,7 +512,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 650,
-        "y": 1040,
+        "y": 1000,
         "wires": [
             [
                 "e2828af2294b511c",
@@ -657,9 +657,9 @@
         "dot": false,
         "ymin": "0",
         "ymax": "4",
-        "removeOlder": "10",
+        "removeOlder": "1",
         "removeOlderPoints": "",
-        "removeOlderUnit": "1",
+        "removeOlderUnit": "60",
         "cutout": 0,
         "useOneColor": false,
         "useUTC": true,
@@ -1020,12 +1020,12 @@
         "links": [
             "1417bd86ac1957a9",
             "81dd2bd8ac087ce5",
+            "cf789d1ca4671fee",
             "ed74a686ab0a424b",
-            "f38941daee0d6ed4",
-            "cf789d1ca4671fee"
+            "f38941daee0d6ed4"
         ],
-        "x": 965,
-        "y": 1880,
+        "x": 755,
+        "y": 1900,
         "wires": []
     },
     {
@@ -1477,7 +1477,7 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
+        "x": 660,
         "y": 2000,
         "wires": [
             [
@@ -1490,14 +1490,14 @@
         "type": "function",
         "z": "430f1f83b71bdc48",
         "name": "Receiver",
-        "func": "// Format: [Status:1][Moisture:4][Threshold:4]\n\nmsg.payload = msg.payload;\n\nreturn msg;",
+        "func": "// Format: [Status:1][Moisture:4][Threshold:4]\n\nmsg.payload = String(msg.payload);\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 650,
-        "y": 1860,
+        "x": 440,
+        "y": 1880,
         "wires": [
             [
                 "83b4566a2a9f686c"
@@ -1517,7 +1517,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1290,
+        "x": 850,
         "y": 2040,
         "wires": []
     },
@@ -1526,7 +1526,7 @@
         "type": "debug",
         "z": "430f1f83b71bdc48",
         "name": "",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1534,8 +1534,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1020,
-        "y": 1840,
+        "x": 810,
+        "y": 1860,
         "wires": []
     },
     {
@@ -1543,7 +1543,7 @@
         "type": "function",
         "z": "430f1f83b71bdc48",
         "name": "Data Encoder",
-        "func": "// Format: [Year:2][Month:2][Day:2][Hour:2][Min:2][Sec:2][Status:1][Moisture:4][Threshold:4][Forecast:6][Latitude:4][Longtitude:4]                \n\nconst isoStr = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Singapore' });\n\nlet encoded = \"\";\n\nlet time = isoStr[8] + isoStr[9] +      // year\n            isoStr[3] + isoStr[4] +     // month\n            isoStr[0] + isoStr[1] +     // day\n            isoStr[12] + isoStr[13] +   // hour\n            isoStr[15] + isoStr[16] +   // min\n            isoStr[18] + isoStr[19];    // sec\n\nlet status = flow.get(\"status\");\n\nlet moistVal = parseInt(flow.get(\"moisture\"));\nlet moist = \"\";\nif (moistVal < 1000) {\n    moist += \"0\";\n    if (moistVal < 100) {\n        moist += \"0\";\n        if (moistVal < 10) {\n            moist += \"0\";\n        }\n    }\n}\nmoist += moistVal;\n\nlet thresVal = parseInt(flow.get(\"threshold\"));\nlet threshold = \"\";\nif (thresVal > 1000) thresVal = 1000;\nif (thresVal < 1000) {\n    threshold += \"0\";\n    if (thresVal < 100) {\n        threshold += \"0\";\n        if (thresVal < 10) {\n            threshold += \"0\";\n        }\n    }\n}\nthreshold += thresVal;\n\nlet forecast = flow.get(\"forecast\");\n\nlet lat_f = parseFloat(flow.get(\"lat\"));\nlet lat = \"\";\nif (lat_f < 100) {\n    lat += \"0\";\n}\nlat += lat_f.toString();\nlat = lat.substring(0, 3) + lat.substring(4, 5);\n\nlet lon_f = parseFloat(flow.get(\"lon\"));\nlet lon = \"\";\nif (lon_f < 100) {\n    lon += \"0\";\n    if (lat_f < 10) {\n        lat += \"0\";\n    }\n}\nlon += lon_f.toString();\nlon = lon.substring(0, 3) + lon.substring(4, 5);\n\nlet message = time + status + moist + threshold + forecast + lat + lon;\n\nflow.set(\"send\", message);\n\nreturn msg;",
+        "func": "// Format: [Year:2][Month:2][Day:2][Hour:2][Min:2][Sec:2][Status:1][Moisture:4][Threshold:4][Forecast:6][Latitude:4][Longtitude:4]                \n\nconst isoStr = new Date().toLocaleString('en-GB', { timeZone: 'Asia/Singapore' });\n\nlet encoded = \"\";\n\nlet time = isoStr[8] + isoStr[9] +      // year\n            isoStr[3] + isoStr[4] +     // month\n            isoStr[0] + isoStr[1] +     // day\n            isoStr[12] + isoStr[13] +   // hour\n            isoStr[15] + isoStr[16] +   // min\n            isoStr[18] + isoStr[19];    // sec\n\nlet status = flow.get(\"status\");\n\nlet moistVal = parseInt(flow.get(\"moisture\"));\nlet moist = \"\";\nif (moistVal < 1000) {\n    moist += \"0\";\n    if (moistVal < 100) {\n        moist += \"0\";\n        if (moistVal < 10) {\n            moist += \"0\";\n        }\n    }\n}\nmoist += moistVal;\n\nlet thresVal = parseInt(flow.get(\"threshold\"));\nlet threshold = \"\";\nif (thresVal > 1000) thresVal = 1000;\nif (thresVal < 1000) {\n    threshold += \"0\";\n    if (thresVal < 100) {\n        threshold += \"0\";\n        if (thresVal < 10) {\n            threshold += \"0\";\n        }\n    }\n}\nthreshold += thresVal;\n\nlet forecast = flow.get(\"forecast\");\n\nlet lat_f = parseFloat(flow.get(\"lat\"));\nlet lat = \"\";\nif (lat_f < 100) {\n    lat += \"0\";\n}\nlat += lat_f.toString();\nlat = lat.substring(0, 3) + lat.substring(4, 5);\n\nlet lon_f = parseFloat(flow.get(\"lon\"));\nlet lon = \"\";\nif (lon_f < 100) {\n    lon += \"0\";\n    if (lat_f < 10) {\n        lat += \"0\";\n    }\n}\nlon += lon_f.toString();\nlon = lon.substring(0, 3) + lon.substring(4, 5);\n\nlet message = time + status + moist + threshold + forecast + lat + lon;\n\nflow.set(\"send\", message);\n\nmsg.payload = message;\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1553,7 +1553,8 @@
         "y": 2020,
         "wires": [
             [
-                "3d289053d2ebb9d6"
+                "5c41eb7df551057e",
+                "8cc8b97f6ca1014a"
             ]
         ]
     },
@@ -1568,8 +1569,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 830,
-        "y": 1860,
+        "x": 620,
+        "y": 1880,
         "wires": [
             [
                 "2b01c17a0478ab40",
@@ -1588,51 +1589,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
+        "x": 660,
         "y": 2040,
         "wires": [
             [
                 "01b633debeef5f83"
-            ]
-        ]
-    },
-    {
-        "id": "8025556ebff11bb2",
-        "type": "rbe",
-        "z": "430f1f83b71bdc48",
-        "name": "Prevent Duplication",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": true,
-        "property": "payload",
-        "topi": "topic",
-        "x": 870,
-        "y": 2020,
-        "wires": [
-            [
-                "5c41eb7df551057e",
-                "8cc8b97f6ca1014a"
-            ]
-        ]
-    },
-    {
-        "id": "3d289053d2ebb9d6",
-        "type": "function",
-        "z": "430f1f83b71bdc48",
-        "name": "Exclude Timestamp",
-        "func": "msg.payload = flow.get(\"send\").slice(12);\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 650,
-        "y": 2020,
-        "wires": [
-            [
-                "8025556ebff11bb2"
             ]
         ]
     },
@@ -1663,7 +1624,7 @@
         "y": 1900,
         "wires": [
             [
-                "132bfc7a186ed370"
+                "bcd8b3bd2d1769f8"
             ]
         ]
     },
@@ -1681,7 +1642,7 @@
         "correl": "",
         "expiry": "",
         "broker": "8a432d6834276554",
-        "x": 1290,
+        "x": 850,
         "y": 2000,
         "wires": []
     },
@@ -1882,56 +1843,6 @@
         "y": 1860,
         "wires": [
             [
-                "132bfc7a186ed370"
-            ]
-        ]
-    },
-    {
-        "id": "7d51a5ec3c6ed5d9",
-        "type": "inject",
-        "z": "430f1f83b71bdc48",
-        "name": "Default values",
-        "props": [
-            {
-                "p": "payload.lat",
-                "v": "10.8",
-                "vt": "num"
-            },
-            {
-                "p": "payload.lon",
-                "v": "106.7",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": true,
-        "onceDelay": "0",
-        "topic": "",
-        "x": 280,
-        "y": 240,
-        "wires": [
-            [
-                "c95d2579f0880f73"
-            ]
-        ]
-    },
-    {
-        "id": "132bfc7a186ed370",
-        "type": "rbe",
-        "z": "430f1f83b71bdc48",
-        "name": "Prevent Duplication",
-        "func": "rbe",
-        "gap": "",
-        "start": "",
-        "inout": "out",
-        "septopics": false,
-        "property": "payload",
-        "topi": "topic",
-        "x": 450,
-        "y": 1860,
-        "wires": [
-            [
                 "bcd8b3bd2d1769f8"
             ]
         ]
@@ -1958,7 +1869,7 @@
             "bbf9586f63a2de6f"
         ],
         "x": 105,
-        "y": 2260,
+        "y": 2280,
         "wires": [
             [
                 "1a4268586400ef8e",
@@ -1978,11 +1889,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 250,
+        "x": 290,
         "y": 2220,
         "wires": [
             [
-                "938cf4f637af5393"
+                "9171107f263e0f3f"
             ]
         ]
     },
@@ -1997,11 +1908,11 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 270,
-        "y": 2260,
+        "x": 310,
+        "y": 2280,
         "wires": [
             [
-                "aedce1949b27e4c4"
+                "4b9801c9b6d45a57"
             ]
         ]
     },
@@ -2016,79 +1927,179 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 250,
-        "y": 2300,
+        "x": 290,
+        "y": 2340,
         "wires": [
             [
-                "c48bad4482349f10"
+                "0b567c456efee2f8"
             ]
         ]
     },
     {
-        "id": "938cf4f637af5393",
-        "type": "ThingspeakSendSimple",
+        "id": "7d51a5ec3c6ed5d9",
+        "type": "inject",
         "z": "430f1f83b71bdc48",
-        "name": "Send moisture",
-        "writekey": "09UPEZZX4T9TVFS2",
-        "fieldid": "1",
-        "x": 520,
-        "y": 2220,
-        "wires": []
+        "name": "Default values",
+        "props": [
+            {
+                "p": "payload.lat",
+                "v": "10.8",
+                "vt": "num"
+            },
+            {
+                "p": "payload.lon",
+                "v": "106.7",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0",
+        "topic": "",
+        "x": 280,
+        "y": 260,
+        "wires": [
+            [
+                "c95d2579f0880f73"
+            ]
+        ]
     },
     {
-        "id": "aedce1949b27e4c4",
-        "type": "ThingspeakSendSimple",
+        "id": "2d6c220a5f059277",
+        "type": "inject",
         "z": "430f1f83b71bdc48",
-        "name": "Send status",
-        "writekey": "09UPEZZX4T9TVFS2",
-        "fieldid": "2",
-        "x": 510,
-        "y": 2260,
-        "wires": []
+        "name": "Default values",
+        "props": [],
+        "repeat": "",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "0",
+        "topic": "",
+        "x": 420,
+        "y": 1040,
+        "wires": [
+            [
+                "ab9e43d1fc8195f4"
+            ]
+        ]
     },
     {
-        "id": "c48bad4482349f10",
-        "type": "ThingspeakSendSimple",
-        "z": "430f1f83b71bdc48",
-        "name": "Send threshold",
-        "writekey": "09UPEZZX4T9TVFS2",
-        "fieldid": "3",
-        "x": 520,
-        "y": 2300,
-        "wires": []
-    },
-    {
-        "id": "66e5f26633992950",
+        "id": "ab9e43d1fc8195f4",
         "type": "function",
         "z": "430f1f83b71bdc48",
         "name": "Set threshold",
-        "func": "flow.set(\"threshold\", msg.payload);\n\nreturn msg;",
+        "func": "flow.set(\"threshold\", 500);\nmsg.payload = 500;\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 350,
+        "x": 630,
         "y": 1040,
         "wires": [
             [
-                "2d0fb2cec549fad9"
+                "e2828af2294b511c"
             ]
         ]
     },
     {
-        "id": "cf789d1ca4671fee",
-        "type": "link in",
+        "id": "8963c89d2b23a9c5",
+        "type": "thingspeak42",
         "z": "430f1f83b71bdc48",
-        "name": "Set threshold",
-        "links": [
-            "f12fcc7d0294441d"
+        "name": "Logging to TS",
+        "delay": "5",
+        "topic1": "1",
+        "topic2": "2",
+        "topic3": "3",
+        "topic4": "",
+        "topic5": "",
+        "topic6": "",
+        "topic7": "",
+        "topic8": "",
+        "endpoint": "https://thingspeak.com",
+        "x": 800,
+        "y": 2280,
+        "wires": []
+    },
+    {
+        "id": "9171107f263e0f3f",
+        "type": "change",
+        "z": "430f1f83b71bdc48",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "1",
+                "tot": "num"
+            }
         ],
-        "x": 185,
-        "y": 1040,
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 2220,
         "wires": [
             [
-                "66e5f26633992950"
+                "8963c89d2b23a9c5"
+            ]
+        ]
+    },
+    {
+        "id": "4b9801c9b6d45a57",
+        "type": "change",
+        "z": "430f1f83b71bdc48",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "2",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 2280,
+        "wires": [
+            [
+                "8963c89d2b23a9c5"
+            ]
+        ]
+    },
+    {
+        "id": "0b567c456efee2f8",
+        "type": "change",
+        "z": "430f1f83b71bdc48",
+        "name": "",
+        "rules": [
+            {
+                "t": "set",
+                "p": "topic",
+                "pt": "msg",
+                "to": "3",
+                "tot": "num"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 550,
+        "y": 2340,
+        "wires": [
+            [
+                "8963c89d2b23a9c5"
             ]
         ]
     },
